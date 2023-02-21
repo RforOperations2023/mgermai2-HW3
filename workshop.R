@@ -7,16 +7,40 @@ library(jsonlite)
 
 weddingGuests <- rgdal::readOGR("https://raw.githubusercontent.com/mgermaine93/wedding-guest-map/master/constants/guests.geojson")
 
-leaflet(data = weddingGuests) %>%
-  addTiles() %>%
-  setView() %>%
-  addMarkers(
-    lng = weddingGuests$coords.x1,
-    lat = weddingGuests$coords.x2,
-    clusterOptions = markerClusterOptions()
+ui <- navbarPage(
+  
+  "Wedding Guest Map",
+  
+  mainPanel(
+    leafletOutput("leaflet")
   )
   
+)
+
+server <- function(input, output) {
   
+  output$leaflet <- renderLeaflet(
+    
+    map <- leaflet(data = weddingGuests) %>%
+      addTiles() %>%
+      setView(
+        lng = -98.583,
+        lat = 39.833,
+        zoom = 3
+      ) %>%
+      addMarkers(
+        lng = weddingGuests$coords.x1,
+        lat = weddingGuests$coords.x2,
+        clusterOptions = markerClusterOptions()
+      )
+    
+    # map %>% fitBounds(-72, 40, -70, 43)
+    
+  )
+  
+}
+  
+shinyApp(ui = ui, server = server)
 
 
 
