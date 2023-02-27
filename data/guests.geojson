@@ -23,7 +23,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": true,
         "popupContent": "Matt",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-79.89294, 40.438918] }
     },
@@ -49,7 +50,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": true,
         "popupContent": "Meredith",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-79.89294, 40.438918] }
     },
@@ -75,7 +77,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": true,
         "popupContent": "John",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-81.933406, 41.449996] }
     },
@@ -101,7 +104,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": true,
         "popupContent": "Lee Ann",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-81.933406, 41.449996] }
     },
@@ -127,7 +131,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": true,
         "popupContent": "Peter",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation Z"
       },
       "geometry": { "type": "Point", "coordinates": [-118.127501, 33.75808] }
     },
@@ -153,7 +158,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": true,
         "popupContent": "Jack",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-86.781703, 36.173032] }
     },
@@ -179,7 +185,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Annie",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-86.781703, 36.173032] }
     },
@@ -205,7 +212,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": true,
         "popupContent": "Morgan",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation Z"
       },
       "geometry": { "type": "Point", "coordinates": [-117.618038, 33.425427] }
     },
@@ -231,7 +239,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": true,
         "popupContent": "Duma",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Silent"
       },
       "geometry": { "type": "Point", "coordinates": [-81.505245, 41.143255] }
     },
@@ -257,7 +266,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Joe",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-122.104914, 37.381187] }
     },
@@ -283,7 +293,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Terri",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-122.104914, 37.381187] }
     },
@@ -309,7 +320,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Nick",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation Z"
       },
       "geometry": { "type": "Point", "coordinates": [-122.198622, 37.484539] }
     },
@@ -335,7 +347,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Stephanie",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation Z"
       },
       "geometry": { "type": "Point", "coordinates": [-122.249716, 37.838099] }
     },
@@ -361,7 +374,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Jim",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-84.210969, 33.944461] }
     },
@@ -387,7 +401,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Paula",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-84.210969, 33.944461] }
     },
@@ -413,7 +428,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Patrick",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation Z"
       },
       "geometry": { "type": "Point", "coordinates": [-98.377344, 29.469866] }
     },
@@ -439,7 +455,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Katie",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation Z"
       },
       "geometry": { "type": "Point", "coordinates": [-84.264028, 33.804845] }
     },
@@ -465,7 +482,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Jeff",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-81.324618, 35.799064] }
     },
@@ -491,7 +509,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Linda",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-81.324618, 35.799064] }
     },
@@ -517,7 +536,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Ally",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation Z"
       },
       "geometry": { "type": "Point", "coordinates": [-81.324618, 35.799064] }
     },
@@ -543,7 +563,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Glen",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-87.806721, 41.860179] }
     },
@@ -569,7 +590,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Jane",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation X"
       },
       "geometry": { "type": "Point", "coordinates": [-87.806721, 41.860179] }
     },
@@ -595,7 +617,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Barbara",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Silent"
       },
       "geometry": { "type": "Point", "coordinates": [-79.943385, 37.321326] }
     },
@@ -621,7 +644,8 @@
         "attended_welcome_party": null,
         "attended_rehearsal_dinner": false,
         "popupContent": "Rich",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.448117, 41.121477] }
     },
@@ -647,9 +671,10 @@
         "attended_welcome_party": null,
         "attended_rehearsal_dinner": false,
         "popupContent": "Cara",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
-      "geometry": { "type": "Point", "coordinates": [-87.806721, 41.860179] }
+      "geometry": { "type": "Point", "coordinates": [-81.448117, 41.121477] }
     },
     {
       "type": "Feature",
@@ -673,7 +698,8 @@
         "attended_welcome_party": null,
         "attended_rehearsal_dinner": false,
         "popupContent": "Trish",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.393071, 41.034336] }
     },
@@ -699,7 +725,8 @@
         "attended_welcome_party": null,
         "attended_rehearsal_dinner": false,
         "popupContent": "Carolyn",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.341082, 40.931661] }
     },
@@ -725,7 +752,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Rich",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.405818, 41.085152] }
     },
@@ -751,7 +779,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Kathy",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.405818, 41.085152] }
     },
@@ -777,7 +806,8 @@
         "attended_welcome_party": null,
         "attended_rehearsal_dinner": false,
         "popupContent": "Michael",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.3876, 40.951448] }
     },
@@ -803,7 +833,8 @@
         "attended_welcome_party": null,
         "attended_rehearsal_dinner": false,
         "popupContent": "Angela",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.3876, 40.951448] }
     },
@@ -829,7 +860,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Shane",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-82.524019, 36.395295] }
     },
@@ -855,7 +887,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Mrs. Shane",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-82.524019, 36.395295] }
     },
@@ -881,7 +914,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Wayne",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-122.381799, 37.909767] }
     },
@@ -907,7 +941,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Susan",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-122.381799, 37.909767] }
     },
@@ -933,7 +968,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": true,
         "popupContent": "Gigi",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Silent"
       },
       "geometry": { "type": "Point", "coordinates": [-81.837309, 41.466473] }
     },
@@ -959,7 +995,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": true,
         "popupContent": "Lynne",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-81.512693, 41.48066] }
     },
@@ -985,7 +1022,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Cliff",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-81.512693, 41.48066] }
     },
@@ -1011,7 +1049,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": true,
         "popupContent": "Caroline",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation Z"
       },
       "geometry": { "type": "Point", "coordinates": [-81.512693, 41.48066] }
     },
@@ -1037,7 +1076,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Drew",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-73.985413, 40.761885] }
     },
@@ -1063,7 +1103,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Mark",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.596917, 41.497582] }
     },
@@ -1089,7 +1130,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Tom",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-81.42802, 41.540836] }
     },
@@ -1115,7 +1157,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Deb",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.42802, 41.540836] }
     },
@@ -1141,7 +1184,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Michael",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.455024, 41.562172] }
     },
@@ -1167,7 +1211,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Julie",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.455024, 41.562172] }
     },
@@ -1193,7 +1238,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Mackenzie",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.455024, 41.562172] }
     },
@@ -1219,7 +1265,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Ellie",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.455024, 41.562172] }
     },
@@ -1245,7 +1292,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Logan",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.455024, 41.562172] }
     },
@@ -1271,7 +1319,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Elliott",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.364011, 41.567419] }
     },
@@ -1297,7 +1346,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Lauren",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.364011, 41.567419] }
     },
@@ -1323,7 +1373,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Lindsey",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.364011, 41.567419] }
     },
@@ -1349,7 +1400,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Johnny",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.364011, 41.567419] }
     },
@@ -1375,7 +1427,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Gary",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-78.724406, 35.649074] }
     },
@@ -1401,7 +1454,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Sandi",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-78.724406, 35.649074] }
     },
@@ -1427,7 +1481,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Jim",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-77.742698, 38.333042] }
     },
@@ -1453,7 +1508,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Mrs. Jim",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-77.742698, 38.333042] }
     },
@@ -1479,7 +1535,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Peyton",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-77.742698, 38.333042] }
     },
@@ -1505,7 +1562,8 @@
         "attended_welcome_party": null,
         "attended_rehearsal_dinner": false,
         "popupContent": "Steve",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.510644, 41.129048] }
     },
@@ -1531,7 +1589,8 @@
         "attended_welcome_party": null,
         "attended_rehearsal_dinner": false,
         "popupContent": "Maggie",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.510644, 41.129048] }
     },
@@ -1557,7 +1616,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Eileen",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-82.007593, 41.462537] }
     },
@@ -1583,7 +1643,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Chris",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-81.9326, 41.450182] }
     },
@@ -1609,7 +1670,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Mary",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-81.9326, 41.450182] }
     },
@@ -1635,7 +1697,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "John",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.892602, 41.467344] }
     },
@@ -1661,7 +1724,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Mrs. John",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.892602, 41.467344] }
     },
@@ -1687,7 +1751,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Chris",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.838891, 41.489092] }
     },
@@ -1713,7 +1778,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Dominique",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.838891, 41.489092] }
     },
@@ -1739,7 +1805,8 @@
         "attended_welcome_party": null,
         "attended_rehearsal_dinner": false,
         "popupContent": "Rick",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation X"
       },
       "geometry": { "type": "Point", "coordinates": [-81.94282, 40.810283] }
     },
@@ -1765,7 +1832,8 @@
         "attended_welcome_party": null,
         "attended_rehearsal_dinner": false,
         "popupContent": "Marcy",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation X"
       },
       "geometry": { "type": "Point", "coordinates": [-81.94282, 40.810283] }
     },
@@ -1791,7 +1859,8 @@
         "attended_welcome_party": null,
         "attended_rehearsal_dinner": false,
         "popupContent": "Whitaker",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation Z"
       },
       "geometry": { "type": "Point", "coordinates": [-81.94282, 40.810283] }
     },
@@ -1817,7 +1886,8 @@
         "attended_welcome_party": null,
         "attended_rehearsal_dinner": false,
         "popupContent": "Lily",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation Z"
       },
       "geometry": { "type": "Point", "coordinates": [-81.94282, 40.810283] }
     },
@@ -1843,7 +1913,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Jeff",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-81.943171, 40.810317] }
     },
@@ -1869,7 +1940,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Jeff",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-81.943171, 40.810317] }
     },
@@ -1895,7 +1967,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Dale",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.94257, 40.810072] }
     },
@@ -1921,7 +1994,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Janet",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.94257, 40.810072] }
     },
@@ -1947,7 +2021,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "McCusker-Johnsons",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.942677, 40.810071] }
     },
@@ -1973,7 +2048,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Jim",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.942878, 40.810103] }
     },
@@ -1999,7 +2075,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Mrs. Jim",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.942878, 40.810103] }
     },
@@ -2025,7 +2102,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Jorge",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-75.841368, 40.306257] }
     },
@@ -2051,7 +2129,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Tracy",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-75.841368, 40.306257] }
     },
@@ -2077,7 +2156,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Sterlings",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-86.789812, 35.985783] }
     },
@@ -2103,7 +2183,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Greg",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-83.18109, 40.021158] }
     },
@@ -2129,7 +2210,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Mrs. Greg",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-83.18109, 40.021158] }
     },
@@ -2155,7 +2237,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Jeff",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-101.420182, 48.25428] }
     },
@@ -2181,7 +2264,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Diana",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-101.420182, 48.25428] }
     },
@@ -2207,7 +2291,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Rhett",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-83.563859, 34.653225] }
     },
@@ -2233,7 +2318,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Tammy",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-83.563859, 34.653225] }
     },
@@ -2259,7 +2345,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Leslie",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-86.740369, 36.174426] }
     },
@@ -2285,7 +2372,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Manuel",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-81.939381, 41.455551] }
     },
@@ -2311,7 +2399,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Maggie",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-81.939381, 41.455551] }
     },
@@ -2337,7 +2426,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Cindy",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-81.966038, 41.456043] }
     },
@@ -2363,7 +2453,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Kent",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.943024, 40.810119] }
     },
@@ -2389,7 +2480,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Joyce",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.943024, 40.810119] }
     },
@@ -2415,7 +2507,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Rose",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.943798, 40.809867] }
     },
@@ -2441,7 +2534,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Matt",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-83.187314, 42.506646] }
     },
@@ -2467,7 +2561,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Donna",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-83.187314, 42.506646] }
     },
@@ -2493,7 +2588,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Roger",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-83.167306, 42.492168] }
     },
@@ -2519,7 +2615,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Jen",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-83.167306, 42.492168] }
     },
@@ -2545,7 +2642,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Kevin",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-77.584997, 38.99499] }
     },
@@ -2571,7 +2669,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Jennifer",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-77.584997, 38.99499] }
     },
@@ -2597,7 +2696,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Kendall",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation Alpha"
       },
       "geometry": { "type": "Point", "coordinates": [-77.584997, 38.99499] }
     },
@@ -2623,7 +2723,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Kayleigh",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation Alpha"
       },
       "geometry": { "type": "Point", "coordinates": [-77.584997, 38.99499] }
     },
@@ -2649,7 +2750,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Rob",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-83.179307, 42.496843] }
     },
@@ -2675,7 +2777,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Diane",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-83.179307, 42.496843] }
     },
@@ -2701,7 +2804,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Linda",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-74.149532, 39.924151] }
     },
@@ -2727,7 +2831,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Henry",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-80.896896, 35.413615] }
     },
@@ -2753,7 +2858,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Susan",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-80.896896, 35.413615] }
     },
@@ -2779,7 +2885,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Gabrielle",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-74.654131, 40.707876] }
     },
@@ -2805,7 +2912,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Peter",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-74.654131, 40.707876] }
     },
@@ -2831,7 +2939,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Benji",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation Alpha"
       },
       "geometry": { "type": "Point", "coordinates": [-74.654131, 40.707876] }
     },
@@ -2857,7 +2966,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Pete",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-83.196501, 42.572941] }
     },
@@ -2883,7 +2993,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Amy",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-83.196501, 42.572941] }
     },
@@ -2909,7 +3020,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": true,
         "popupContent": "Chris",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-78.991359, 35.90718] }
     },
@@ -2935,7 +3047,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": true,
         "popupContent": "Dave",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation Z"
       },
       "geometry": { "type": "Point", "coordinates": [-83.409965, 42.341952] }
     },
@@ -2961,7 +3074,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Frank",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-74.54301, 40.661899] }
     },
@@ -2987,7 +3101,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Cookie",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-74.54301, 40.661899] }
     },
@@ -3013,7 +3128,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Blair",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-77.857901, 35.968721] }
     },
@@ -3039,7 +3155,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Alice",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-77.857901, 35.968721] }
     },
@@ -3065,7 +3182,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Bob",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-78.441918, 35.688884] }
     },
@@ -3091,7 +3209,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Susan",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-78.441918, 35.688884] }
     },
@@ -3117,7 +3236,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Harry",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-78.135485, 39.163293] }
     },
@@ -3143,7 +3263,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Sara",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-78.135485, 39.163293] }
     },
@@ -3169,7 +3290,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Fred",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-74.316927, 40.715111] }
     },
@@ -3195,7 +3317,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Elaine",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-74.316927, 40.715111] }
     },
@@ -3221,7 +3344,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Zachary",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-74.316927, 40.715111] }
     },
@@ -3247,7 +3371,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Emily",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-74.316927, 40.715111] }
     },
@@ -3273,7 +3398,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Arlene",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-77.46097, 39.045236] }
     },
@@ -3299,7 +3425,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Courtney",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-77.117943, 38.884812] }
     },
@@ -3325,7 +3452,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Daniel",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-83.192814, 42.496606] }
     },
@@ -3351,7 +3479,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Sally",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-83.192814, 42.496606] }
     },
@@ -3377,7 +3506,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "J.L.",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-80.791429, 35.069581] }
     },
@@ -3403,7 +3533,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Jennifer",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-80.791429, 35.069581] }
     },
@@ -3429,7 +3560,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Mateo",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation Alpha"
       },
       "geometry": { "type": "Point", "coordinates": [-80.791429, 35.069581] }
     },
@@ -3455,7 +3587,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Little One",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation Alpha"
       },
       "geometry": { "type": "Point", "coordinates": [-80.791429, 35.069581] }
     },
@@ -3481,7 +3614,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Marianne",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-83.223356, 42.629474] }
     },
@@ -3507,7 +3641,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "David",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-83.223356, 42.629474] }
     },
@@ -3533,7 +3668,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Scott",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-81.748435, 36.234483] }
     },
@@ -3559,7 +3695,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": true,
         "popupContent": "Kim",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-81.748435, 36.234483] }
     },
@@ -3585,7 +3722,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Catherine",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-82.955835, 42.461488] }
     },
@@ -3611,7 +3749,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Tim",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-83.201952, 42.497652] }
     },
@@ -3637,7 +3776,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Lori",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-83.201952, 42.497652] }
     },
@@ -3663,7 +3803,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Elizabeth",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-79.86981, 36.142802] }
     },
@@ -3689,7 +3830,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Stacy",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-79.86981, 36.142802] }
     },
@@ -3715,7 +3857,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Greg",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-74.649346, 40.426256] }
     },
@@ -3741,7 +3884,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Adrienne",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-74.649346, 40.426256] }
     },
@@ -3767,7 +3911,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Alexis",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation Z"
       },
       "geometry": { "type": "Point", "coordinates": [-74.649346, 40.426256] }
     },
@@ -3793,7 +3938,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Justin",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation Z"
       },
       "geometry": { "type": "Point", "coordinates": [-74.649346, 40.426256] }
     },
@@ -3819,7 +3965,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Jeffrey",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-78.961754, 36.133484] }
     },
@@ -3845,7 +3992,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Beth",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-78.961754, 36.133484] }
     },
@@ -3871,7 +4019,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Babci",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Silent"
       },
       "geometry": { "type": "Point", "coordinates": [-80.481026, 27.645144] }
     },
@@ -3897,7 +4046,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": true,
         "popupContent": "Cioci Barbara",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-79.020357, 35.91855] }
     },
@@ -3923,7 +4073,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Edwin",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-80.157254, 26.605269] }
     },
@@ -3949,7 +4100,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Alice",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-80.157254, 26.605269] }
     },
@@ -3975,7 +4127,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "James",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-74.246492, 40.921692] }
     },
@@ -4001,7 +4154,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Linda",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-80.765606, 35.148801] }
     },
@@ -4027,7 +4181,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Martine",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-74.616254, 40.603666] }
     },
@@ -4053,7 +4208,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Susan",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-74.616254, 40.603666] }
     },
@@ -4079,7 +4235,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Tom",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-83.772993, 42.223011] }
     },
@@ -4105,7 +4262,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": true,
         "popupContent": "Lisa",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-83.772993, 42.223011] }
     },
@@ -4131,7 +4289,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Andrew",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-97.250075, 32.845952] }
     },
@@ -4157,7 +4316,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Jake",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-79.948811, 40.459991] }
     },
@@ -4183,7 +4343,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Derrick",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-79.948811, 40.459991] }
     },
@@ -4209,7 +4370,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Joey",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-91.224185, 43.804889] }
     },
@@ -4234,7 +4396,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Jenni",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-91.224185, 43.804889] }
     },
@@ -4260,7 +4423,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Alex",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation Alpha"
       },
       "geometry": { "type": "Point", "coordinates": [-97.736477, 30.320725] }
     },
@@ -4286,7 +4450,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Gabi",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation Alpha"
       },
       "geometry": { "type": "Point", "coordinates": [-97.736477, 30.320725] }
     },
@@ -4312,7 +4477,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "James",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-76.956267, 39.403528] }
     },
@@ -4338,7 +4504,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Gwen",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-76.956267, 39.403528] }
     },
@@ -4364,7 +4531,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Emily",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-83.19802, 42.546329] }
     },
@@ -4390,7 +4558,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Joe",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-83.19802, 42.546329] }
     },
@@ -4416,7 +4585,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Jacob",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-83.178658, 42.481369] }
     },
@@ -4442,7 +4612,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Aimon",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-93.141799, 44.937071] }
     },
@@ -4468,7 +4639,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Rafa",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-93.141799, 44.937071] }
     },
@@ -4494,7 +4666,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Anna",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-83.177962, 41.094632] }
     },
@@ -4520,7 +4693,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Melanie",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-76.49582, 42.447629] }
     },
@@ -4546,7 +4720,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Tim",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-76.49582, 42.447629] }
     },
@@ -4572,7 +4747,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Umberto",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-76.397508, 38.362899] }
     },
@@ -4598,7 +4774,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Colleen",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-76.397508, 38.362899] }
     },
@@ -4624,7 +4801,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Fiona",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation Alpha"
       },
       "geometry": { "type": "Point", "coordinates": [-76.397508, 38.362899] }
     },
@@ -4650,7 +4828,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Ed",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.958041, 40.784741] }
     },
@@ -4676,7 +4855,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Linda",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.958041, 40.784741] }
     },
@@ -4702,7 +4882,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Jeremy",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-85.626543, 42.289176] }
     },
@@ -4728,7 +4909,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Dalia",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-85.626543, 42.289176] }
     },
@@ -4754,7 +4936,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Kristin",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation Z"
       },
       "geometry": { "type": "Point", "coordinates": [-93.294867, 44.944439] }
     },
@@ -4780,7 +4963,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Adrienne",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-82.657427, 41.395957] }
     },
@@ -4806,7 +4990,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Kelsey",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-87.911931, 43.138828] }
     },
@@ -4832,7 +5017,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Emily",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-82.045915, 41.36023] }
     },
@@ -4858,7 +5044,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Dr. Kammer",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.895377, 40.830699] }
     },
@@ -4884,7 +5071,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Ryan",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-79.924684, 40.473002] }
     },
@@ -4910,7 +5098,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Taylor",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-79.924684, 40.473002] }
     },
@@ -4936,7 +5125,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Susan",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-71.998391, 44.533998] }
     },
@@ -4962,7 +5152,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Jim",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-71.998391, 44.533998] }
     },
@@ -4988,7 +5179,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Grace",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-93.283865, 44.956737] }
     },
@@ -5014,7 +5206,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Max",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-93.283865, 44.956737] }
     },
@@ -5040,7 +5233,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Blake",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.510945, 41.476022] }
     },
@@ -5066,7 +5260,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Miles",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.510945, 41.476022] }
     },
@@ -5092,7 +5287,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Amy",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.510945, 41.476022] }
     },
@@ -5118,7 +5314,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Matt",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-81.510945, 41.476022] }
     },
@@ -5144,7 +5341,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": true,
         "popupContent": "Kati",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-79.080394, 35.914176] }
     },
@@ -5170,7 +5368,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": true,
         "popupContent": "Michael",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-79.080394, 35.914176] }
     },
@@ -5196,7 +5395,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Dr. McConnell",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-81.971713, 40.843143] }
     },
@@ -5222,7 +5422,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Cathy",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-81.971713, 40.843143] }
     },
@@ -5248,7 +5449,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Bri",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-81.368852, 40.819357] }
     },
@@ -5274,7 +5476,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Shane",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-81.368852, 40.819357] }
     },
@@ -5300,7 +5503,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Noelle",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation Alpha"
       },
       "geometry": { "type": "Point", "coordinates": [-81.368852, 40.819357] }
     },
@@ -5326,7 +5530,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Wes",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-85.804639, 40.187232] }
     },
@@ -5352,7 +5557,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Jonell",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-85.804639, 40.187232] }
     },
@@ -5378,7 +5584,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Keely",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-82.593532, 39.714287] }
     },
@@ -5404,7 +5611,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Bob",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-81.947456, 40.831847] }
     },
@@ -5430,7 +5638,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Bobbie",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-81.947456, 40.831847] }
     },
@@ -5456,7 +5665,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Ben",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-73.061768, 43.174827] }
     },
@@ -5482,7 +5692,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": true,
         "popupContent": "Alea",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-76.49775, 42.44711] }
     },
@@ -5508,7 +5719,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": true,
         "popupContent": "David",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-76.49775, 42.44711] }
     },
@@ -5534,7 +5746,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Kelsey",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-83.018517, 40.026996] }
     },
@@ -5560,7 +5773,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Andy",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-83.018517, 40.026996] }
     },
@@ -5586,7 +5800,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": true,
         "popupContent": "Edmund",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-81.116438, 40.89522] }
     },
@@ -5612,7 +5827,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": true,
         "popupContent": "Kate",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-83.775547, 42.220214] }
     },
@@ -5638,7 +5854,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": true,
         "popupContent": "Michael",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-83.775547, 42.220214] }
     },
@@ -5664,7 +5881,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": true,
         "popupContent": "Eliza",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation Alpha"
       },
       "geometry": { "type": "Point", "coordinates": [-83.775547, 42.220214] }
     },
@@ -5690,7 +5908,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Whitney",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-81.540702, 41.466132] }
     },
@@ -5716,7 +5935,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": true,
         "popupContent": "Maria",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-81.858075, 41.463629] }
     },
@@ -5742,7 +5962,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Cindy",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-122.035414, 37.534154] }
     },
@@ -5768,7 +5989,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Stephen",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-84.760607, 43.59557] }
     },
@@ -5794,7 +6016,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Brian",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation Z"
       },
       "geometry": { "type": "Point", "coordinates": [-115.067854, 36.120617] }
     },
@@ -5820,7 +6043,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": true,
         "popupContent": "Elliott",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-89.361001, 43.083665] }
     },
@@ -5846,7 +6070,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": true,
         "popupContent": "Katelyn",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-89.361001, 43.083665] }
     },
@@ -5872,7 +6097,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Alejandra",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-90.890464, 33.402866] }
     },
@@ -5898,7 +6124,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Amilcar",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-90.890464, 33.402866] }
     },
@@ -5924,7 +6151,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Dan",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-81.905003, 41.339548] }
     },
@@ -5950,7 +6178,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Steve",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-80.25314, 40.828479] }
     },
@@ -5976,7 +6205,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Sam",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-80.25314, 40.828479] }
     },
@@ -6002,7 +6232,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": true,
         "popupContent": "Linda",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-88.408801, 44.284978] }
     },
@@ -6028,7 +6259,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": true,
         "popupContent": "Mike",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-88.408801, 44.284978] }
     },
@@ -6054,7 +6286,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Jeanie",
-        "heardFrom": true
+        "heardFrom": true,
+        "generation": "Silent"
       },
       "geometry": { "type": "Point", "coordinates": [-81.055885, 29.285812] }
     },
@@ -6080,7 +6313,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Royce",
-        "heardFrom": true
+        "heardFrom": true,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-81.73356, 28.51254] }
     },
@@ -6106,7 +6340,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Marcie",
-        "heardFrom": true
+        "heardFrom": true,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-81.73356, 28.51254] }
     },
@@ -6132,7 +6367,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Jerry",
-        "heardFrom": true
+        "heardFrom": true,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-83.19199, 42.49309] }
     },
@@ -6158,7 +6394,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Carol",
-        "heardFrom": true
+        "heardFrom": true,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-83.19199, 42.49309] }
     },
@@ -6184,7 +6421,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Caroline",
-        "heardFrom": true
+        "heardFrom": true,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-86.47415, 35.89647] }
     },
@@ -6210,7 +6448,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Jenna",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-80.81619, 41.23612] }
     },
@@ -6236,7 +6475,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Andrew",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-80.81619, 41.23612] }
     },
@@ -6262,7 +6502,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "D.J. Danny",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Generation X"
       },
       "geometry": { "type": "Point", "coordinates": [-81.58848, 41.40607] }
     },
@@ -6288,7 +6529,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Lexi",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-80.81619, 41.23612] }
     },
@@ -6314,7 +6556,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Tia",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Millennial"
       },
       "geometry": { "type": "Point", "coordinates": [-80.81619, 41.23612] }
     },
@@ -6340,7 +6583,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Eric",
-        "heardFrom": false
+        "heardFrom": false,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-81.93562, 40.80527] }
     },
@@ -6366,7 +6610,8 @@
         "attended_welcome_party": true,
         "attended_rehearsal_dinner": false,
         "popupContent": "Toni",
-        "heardFrom": true
+        "heardFrom": true,
+        "generation": "Baby Boomer"
       },
       "geometry": { "type": "Point", "coordinates": [-81.93408, 40.8111] }
     },
@@ -6392,7 +6637,8 @@
         "attended_welcome_party": false,
         "attended_rehearsal_dinner": false,
         "popupContent": "Mary Carroll",
-        "heardFrom": true
+        "heardFrom": true,
+        "generation": "N/A"
       },
       "geometry": { "type": "Point", "coordinates": [-80.3075, 40.8111] }
     }
