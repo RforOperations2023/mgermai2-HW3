@@ -4,7 +4,7 @@ library(dplyr)
 library(maps)
 library(jsonlite)
 library(st)
-
+library(shinydashboard)
 require(sf)
 require(leaflet)
 require(leaflet.extras)
@@ -23,102 +23,125 @@ weddingGuests <- st_read("data/guests.geojson")
 
 
 # ui part begins here
-ui <- fluidPage(
+ui <- dashboardPage(
   
-  # sets the title of the app
-  titlePanel("Wedding Guest Map"),
-  
-  h5("By Matt Germaine"),
+  skin = "green",
   
   # sets the theme/coloring of the app
-  theme = shinytheme("cerulean"),
+  # theme = shinytheme("cerulean"),
   
-  # displays the title of the app
-  titlePanel(
-    "Pittsburgh Regional Transit Ridership, 2017-2022",
+  
+  # sets the title of the app
+  dashboardHeader(
+    title = "Meredith and Matt's Wedding Guest Map",
+    titleWidth = 400
   ),
   
   
   
   # user input part
-  sidebarLayout(
+  dashboardSidebar(
     
-    sidebarPanel(
+    width = 400,
+    
+    sidebarMenu(
+      id = "tabs",
+      # the first "page" of the app, seen in the upper left of the app
+      # it corresponds with the tabItem that has the same tabName value as this one.
+      menuItem(
+        "Map of Guests", 
+        tabName = "leaflet",
+        icon = icon("map")
+      ),
+      # the second "page" of the app, seen in the upper left of the app
+      # it corresponds with the tabItem that has the same tabName value as this one.
+      menuItem(
+        "Wedding Guests by Generational Age", 
+        tabName = "plotByAge",
+        icon = icon("chart-column")
+      ),
+      # the third "page" of the app, seen in the upper left of the app
+      # it corresponds with the tabItem that has the same tabName value as this one
+      menuItem(
+        "Wedding Guests by State", 
+        tabName = "plotByState",
+        icon = icon("michigan")
+      ),
       
-      p("
-        Wedding Guest Stuff
-      "),
-      
-      p("
-        More wedding guest stuff
-      "),
-      
-      br(),
-      br(),
-      
-      selectInput(
-        inputId = "guestSelect",
+      selectizeInput(
+        inputId = "guestTypeSelect",
         label = "Guest Type",
         choices = c(
-          "Something",
-          "Something else"
+          "Everyone",
+          "Couple",
+          "Invitees",
+          "Attendees",
+          "Bride's Side",
+          "Groom's Side",
+          "Couple's Side",
+          "Wedding Party",
+          "Bride's Family",
+          "Groom's Family",
+          "Family",
+          "Friends",
+          "Family Friends",
+          "Pre-College Friends",
+          "College Friends",
+          "Post-College Friends",
+          "Rehearsal Dinner Attendees",
+          "Welcome Party Attendees",
+          "Vendors",
+          "Heard From (but not invited)"
         ),
         selected = c(
-          "Something"
+          "Couple",
+          "Wedding Party"
         ),
-        selectize = TRUE,
         multiple = TRUE
         
       ),
-      
       # as defined here:  https://caregiversofamerica.com/2022-generation-names-explained/
       checkboxGroupInput(
         inputId = "guestGenerationSelect",
         label = "Guest Generation",
-        choices = c(
-          "The Greatest Generation (born 1901-1924)",
-          "The Silent Generation (born 1925-1945)",
-          "The Baby Boomer Generation (born 1946-1964)",
-          "Generation X (born 1965-1979)",
-          "Millennials (born 1980-1994)",
-          "Generation Z (born 1995-2012)",
-          "Generation Alpha (born 2013-Present)"
-        )
+        # might rename these labels later...
+        choices = c(unique(sort(weddingGuests$generation)))
       ),
-      
       selectizeInput(
-        inputId = "guestsState",
+        inputId = "guestStateSelect",
         label = "Guest State",
-        choices = unique(sort(weddingGuests$state))
-      ),
-      
-      br(),
-      
-      # enables the user to download the data
-      # https://shiny.rstudio.com/reference/shiny/1.0.5/downloadbutton
-      downloadButton(
-        outputId = "downloadData",
-        label = "Download Data Table"
+        choices = unique(sort(weddingGuests$state)),
+        selected = c(
+          "Michigan",
+          "Ohio",
+          "Pennsylvania"
+        ),
+        multiple = TRUE
       )
-      
-    ),
+    )
+  ),
     
-    # this is the part that actually holds the plotted data
-    mainPanel(
+  # this is the part that actually holds the plotted data
+  dashboardBody(
       
-      leafletOutput("leaflet"),
-      
-      br(),
-      br(),
-      
-      # data table stuff
-      DT::dataTableOutput(
-        outputId = "mytable",
-      ),
-      
-      br(),
-      br()
-      
+    tabItems(
+        
+      tabItem(
+          
+        tabName = "leaflet",
+        fluidRow(
+          box(
+            width = 12,
+            leafletOutput(
+              "leaflet",
+              width = "100%",
+              # might need to change this depending on the DT/tables/graphs, etc
+              # https://stackoverflow.com/questions/36469631/how-to-get-leaflet-for-r-use-100-of-shiny-dashboard-height
+              height = "95vh"
+            )
+          )
+        )
+      )
     )
   )
 )
@@ -127,342 +150,59 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   
-  output$leaflet <- renderLeaflet(
+  # load in wedding guest filtered data
+  output$leaflet <- renderLeaflet({
     
-    map <- leaflet(data = weddingGuests) %>%
-      addTiles() %>%
+    guests <- weddingGuestsInputs()
+    
+    leaflet(data = guests) %>%
+      addTiles(urlTemplate = "http://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga", attribution = "Google") %>%
+      addLayersControl(baseGroups = c("Google", "Wiki")) %>%
       setView(
         lng = -98.583,
         lat = 39.833,
-        zoom = 3
+        zoom = 5
       ) %>%
       addMarkers(
-        weddingGuests$coords,
+        guests$coords,
         popup = ~as.character(popupContent),
         clusterOptions = markerClusterOptions()
       )
     
-  )
+  })
+  
+  weddingGuestsInputs <- reactive({
+    
+    weddingGuests <- weddingGuests
+    
+    # types of guests
+    if (length(input$guestStateSelect > 1)) {
+      weddingGuests <- subset(weddingGuests, state %in% input$guestStateSelect)
+    } else {
+      weddingGuests <- subset(weddingGuests, state == input$guestStateSelect)
+    }
+    
+    return(weddingGuests)
+    
+  })
+  
+  # output$leaflet <- renderLeaflet(
+  #   
+  #   map <- leaflet(data = weddingGuests) %>%
+  #     addTiles() %>%
+  #     setView(
+  #       lng = -98.583,
+  #       lat = 39.833,
+  #       zoom = 5
+  #     ) %>%
+  #     addMarkers(
+  #       weddingGuests$coords,
+  #       popup = ~as.character(popupContent),
+  #       clusterOptions = markerClusterOptions()
+  #     )
+  #   
+  # )
   
 }
 
 shinyApp(ui = ui, server = server)
-
-
-
-
-# ui <- fluidPage(
-#   
-#   
-# 
-#   sidebarLayout(
-#     
-#     sidebarPanel(
-#       
-#       selectInput(
-#         inputId = "guestSelect",
-#         label = "Guest Type",
-#         choices = c(
-#           "Something",
-#           "Something else"
-#         ),
-#         selected = c(
-#           "Something"
-#         ),
-#         selectize = TRUE,
-#         multiple = TRUE
-# 
-#       ),
-# 
-#       # as defined here:  https://caregiversofamerica.com/2022-generation-names-explained/
-#       checkboxGroupInput(
-#         inputId = "guestGenerationSelect",
-#         label = "Guest Generation",
-#         choices = c(
-#           "The Greatest Generation (born 1901-1924)",
-#           "The Silent Generation (born 1925-1945)",
-#           "The Baby Boomer Generation (born 1946-1964)",
-#           "Generation X (born 1965-1979)",
-#           "Millennials (born 1980-1994)",
-#           "Generation Z (born 1995-2012)",
-#           "Generation Alpha (born 2013-Present)"
-#         )
-#       ),
-# 
-#       selectizeInput(
-#         inputId = "guestsState",
-#         label = "Guest State",
-#         choices = unique(sort(weddingGuests$state))
-#       ),
-#       
-#       br(),
-#       
-#       downloadButton(
-#         outputId = "Download Data",
-#         label = "Download Data Table"
-#       )
-#       
-#     ),
-#     
-#     mainPanel(
-#       
-#       leafletOutput("leaflet")
-#       
-#     )
-#     
-#   )
-#   
-# )
-# 
-# 
-# 
-#   
-#   # # Map Panel
-#   # sidebarLayout(
-#   #   sidebarPanel(
-#   #     selectInput(
-#   #       inputId = "guestSelect",
-#   #       label = "Guest Type",
-#   #       choices = c(
-#   #         "Something",
-#   #         "Something else"
-#   #       ),
-#   #       selected = c(
-#   #         "Something"
-#   #       ),
-#   #       selectize = TRUE,
-#   #       multiple = TRUE
-#   #       
-#   #     ),
-#   #     
-#   #     # as defined here:  https://caregiversofamerica.com/2022-generation-names-explained/
-#   #     checkboxGroupInput(
-#   #       inputId = "guestGenerationSelect",
-#   #       label = "Guest Generation",
-#   #       choices = c(
-#   #         "The Greatest Generation (born 1901-1924)",
-#   #         "The Silent Generation (born 1925-1945)",
-#   #         "The Baby Boomer Generation (born 1946-1964)",
-#   #         "Generation X (born 1965-1979)",
-#   #         "Millennials (born 1980-1994)",
-#   #         "Generation Z (born 1995-2012)",
-#   #         "Generation Alpha (born 2013-Present)"
-#   #       )
-#   #     ),
-#   #     
-#   #     selectizeInput(
-#   #       inputId = "guestsState",
-#   #       label = "Guest State",
-#   #       choices = unique(sort(weddingGuests$state))
-#   #     )
-#   #   ),
-#   #   mainPanel(
-#   #     leafletOutput("leaflet")
-#   #   )
-#   # ),
-#   
-#   
-#   
-#   
-#   
-#   
-#   
-#   
-#   
-# #   tabPanel(
-# #   
-# #     "Map",
-# #     
-# #     sidebarLayout(
-# #       sidebarPanel(
-# #         
-# #         selectInput(
-# #           inputId = "guestSelect",
-# #           label = "Guest Type",
-# #           choices = c(
-# #             "Something",
-# #             "Something else"
-# #           ),
-# #           selected = c(
-# #             "Something"
-# #           ),
-# #           selectize = TRUE,
-# #           multiple = TRUE
-# #           
-# #         ),
-# #         
-# #         # as defined here:  https://caregiversofamerica.com/2022-generation-names-explained/
-# #         checkboxGroupInput(
-# #           inputId = "guestGenerationSelect",
-# #           label = "Guest Generation",
-# #           choices = c(
-# #             "The Greatest Generation (born 1901-1924)",
-# #             "The Silent Generation (born 1925-1945)",
-# #             "The Baby Boomer Generation (born 1946-1964)",
-# #             "Generation X (born 1965-1979)",
-# #             "Millennials (born 1980-1994)",
-# #             "Generation Z (born 1995-2012)",
-# #             "Generation Alpha (born 2013-Present)"
-# #           )
-# #         ),
-# #         
-# #         selectizeInput(
-# #           inputId = "guestsState",
-# #           label = "Guest State",
-# #           choices = unique(sort(weddingGuests$state))
-# #         )
-# #       )
-# #     ),
-# #       
-# #     mainPanel(
-# #       leafletOutput("leaflet")
-# #     )
-# #       
-# #     
-# #   # closing bracket of tab panel
-# #   )
-# # )
-# 
-# 
-#     
-#     # "Map",
-#     # 
-#     # sidebarLayout(
-#       
-#       
-#   #   )
-#   # )
-#       
-#       # select what group the guest falls into (wedding party, etc.)
-#       # select what state the guest comes from
-#       # select the guests by generation? (Baby Boomer, Millennial, etc.)
-#       
-#       # for the charts...
-#       # bar plot of where people came from
-#         # x-xis is state,
-#         # y -axis is the number of people
-#       
-#       # bar plot of the groups of people
-#         # x-axis is the group type,
-#         # y-axis is the number of people
-#       
-#       
-#       # sidebarPanel(
-#       #   
-#       #   selectInput(
-#       #     inputId = "guestSelect",
-#       #     label = "Guest Type",
-#       #     choices = c(
-#       #       "Something",
-#       #       "Something else"
-#       #     ),
-#       #    selected = c(
-#       #       "Something"
-#       #     ),
-#       #     selectize = TRUE,
-#       #     multiple = TRUE
-#       #     
-#       #   ),
-#       #   
-#       #   # as defined here:  https://caregiversofamerica.com/2022-generation-names-explained/
-#       #   checkboxGroupInput(
-#       #     inputId = "guestGenerationSelect",
-#       #     label = "Guest Generation",
-#       #     choices = c(
-#       #       "The Greatest Generation (born 1901-1924)",
-#       #       "The Silent Generation (born 1925-1945)",
-#       #       "The Baby Boomer Generation (born 1946-1964)",
-#       #       "Generation X (born 1965-1979)",
-#       #       "Millennials (born 1980-1994)",
-#       #       "Generation Z (born 1995-2012)",
-#       #       "Generation Alpha (born 2013-Present)"
-#       #     )
-#       #   ),
-#       #   
-#       #   selectizeInput(
-#       #     inputId = "guestsState",
-#       #     label = "Guest State",
-#       #     choices = unique(sort(weddingGuests$state))
-#       #     # choices = c(
-#       #     #   "Alabama",
-#       #     #   "Alaska",
-#       #     #   "Arizona",
-#       #     #   "Arkansas",
-#       #     #   "California",
-#       #     #   "Colorado",
-#       #     #   "Connecticut",
-#       #     #   "Delaware",
-#       #     #   "District of Columbia",
-#       #     #   "Florida",
-#       #     #   "Georgia",
-#       #     #   "Hawaii",
-#       #     #   "Idaho",
-#       #     #   "Illinois",
-#       #     #   "Indiana",
-#       #     #   "Iowa",
-#       #     #   "Kansas",
-#       #     #   "Kentucky",
-#       #     #   "Louisiana",
-#       #     #   "Maine",
-#       #     #   "Montana",
-#       #     #   "Nebraska",
-#       #     #   "Nevada",
-#       #     #   "New Hampshire",
-#       #     #   "New Jersey",
-#       #     #   "New Mexico",
-#       #     #   "New York",
-#       #     #   "North Carolina",
-#       #     #   "North Dakota",
-#       #     #   "Ohio",
-#       #     #   "Oklahoma",
-#       #     #   "Oregon",
-#       #     #   "Maryland",
-#       #     #   "Massachusetts",
-#       #     #   "Michigan",
-#       #     #   "Minnesota",
-#       #     #   "Mississippi",
-#       #     #   "Missouri",
-#       #     #   "Pennsylvania",
-#       #     #   "Rhode Island",
-#       #     #   "South Carolina",
-#       #     #   "South Dakota",
-#       #     #   "Tennessee",
-#       #     #   "Texas",
-#       #     #   "Utah",
-#       #     #   "Vermont",
-#       #     #   "Virginia",
-#       #     #   "Washington",
-#       #     #   "West Virginia",
-#       #     #   "Wisconsin",
-#       #     #   "Wyoming"
-#       #     # )
-#       #   )
-#       
-#        # # Select NYC Borough
-#        # radioButtons("boroSelect",
-#        #              "Borough Filter:",
-#        #              choices = unique(sort(greenInf.load$borough)),
-#        #              selected = "Bronx")
-#        # ),
-#        # # Map Page
-#        # mainPanel(
-#        #   # Style the background and change the page
-#        #   tags$style(type = "text/css", ".leaflet {height: calc(100vh - 90px) !important;}
-#        #                             body {background-color: #D4EFDF;}"),
-#        #   # Map Output
-#        #   leafletOutput("leaflet")
-#        # )
-#   #    )
-#   #    )
-#   # ),
-#   # # # Data Table Pannel
-#   # tabPanel("Data",
-#   #          fluidPage(
-#   #            wellPanel(DT::dataTableOutput("table"))
-#   #          )
-#   # )
-#   
-#   
-#   
-#   
-# 
