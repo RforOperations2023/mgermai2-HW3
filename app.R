@@ -74,26 +74,26 @@ ui <- dashboardPage(
         inputId = "guestTypeSelect",
         label = "Guest Type",
         choices = c(
-          "Everyone",
-          "Couple",
-          "Invitees",
-          "Attendees",
-          "Bride's Side",
-          "Groom's Side",
-          "Couple's Side",
-          "Wedding Party",
-          "Bride's Family",
-          "Groom's Family",
-          "Family",
-          "Friends",
-          "Family Friends",
-          "Pre-College Friends",
-          "College Friends",
-          "Post-College Friends",
-          "Rehearsal Dinner Attendees",
-          "Welcome Party Attendees",
-          "Vendors",
-          "Heard From (but not invited)"
+          "Everyone" = "everyone",
+          "Couple" = "is_couple",
+          "Invitees" = "invited",
+          "Attendees" = "attended_wedding",
+          "Bride's Side" = "brides_side",
+          "Groom's Side" = "grooms_side",
+          "Couple's Side" = "couples_side",
+          "Wedding Party" = "wedding_party",
+          "Bride's Family" = "brides_family",
+          "Groom's Family" = "grooms_family",
+          "Family" = "family",
+          "Friends" = "friends",
+          "Family Friends" = "family_friends",
+          "Pre-College Friends" = "pre_college_friends",
+          "College Friends" = "college_friends",
+          "Post-College Friends" = "post_college_friends",
+          "Rehearsal Dinner Attendees" = "attended_rehearsal_dinner",
+          "Welcome Party Attendees" = "attended_welcome_party",
+          "Heard From (but not invited)" = "heard_from",
+          "Vendors" = "is_vendor"
         ),
         selected = c(
           "Couple",
@@ -159,7 +159,7 @@ server <- function(input, output) {
     weddingGuests <- weddingGuestsInputs()
     
     leaflet(data = weddingGuests) %>%
-      addProviderTiles(providers$NASAGIBS.ViirsEarthAtNight2012, group = "NatGeo", options = providerTileOptions(noWrap = TRUE)) %>%
+      addProviderTiles(providers$OpenTopoMap, group = "NatGeo", options = providerTileOptions(noWrap = TRUE)) %>%
       # addProviderTiles(providers$Stamen.TerrainLabels, options = providerTileOptions(noWrap = TRUE)) %>%
       # addProviderTiles(providers$NASAGIBS.ViirsEarthAtNight2012, group = "Earth at Night", options = providerTileOptions(minZoom = 1)) %>%
       
@@ -210,33 +210,144 @@ server <- function(input, output) {
     
     weddingGuests <- weddingGuests
     
-    # types of guests
-    if (length(input$guestStateSelect > 1)) {
-      weddingGuests <- subset(weddingGuests, state %in% input$guestStateSelect)
-    } else {
-      weddingGuests <- subset(weddingGuests, state == input$guestStateSelect)
+    # new stuff here
+    
+    # https://stackoverflow.com/questions/49851381/empty-a-data-frame-keep-colnames-headers-only
+    guests_to_be_plotted <- weddingGuests[FALSE, ]
+    
+    everyone <- weddingGuests
+    couple <- subset(weddingGuests, is_bride == TRUE | is_groom == TRUE)
+    invited <- subset(weddingGuests, invited == TRUE)
+    attendedWedding <- subset(weddingGuests, attended_wedding == TRUE)
+    bridesSide <- subset(weddingGuests, inviter == "Eyre")
+    groomsSide <- subset(weddingGuests, inviter == "Germaine")
+    couplesSide <- subset(weddingGuests, inviter == "Couple")
+    weddingParty <- subset(weddingGuests, in_wedding_party == TRUE)
+    bridesFamily <- subset(weddingGuests, is_family == TRUE & inviter == "Eyre")
+    groomsFamily <- subset(weddingGuests, is_family == TRUE & inviter == "Germaine")
+    family <- subset(weddingGuests, is_family == TRUE)
+    friends <- subset(weddingGuests, is_friend == TRUE)
+    familyFriends <- subset(weddingGuests, is_family_friend == TRUE)
+    preCollegeFriends <- subset(weddingGuests, is_pre_college_friend == TRUE)
+    collegeFriends <- subset(weddingGuests, is_college_friend == TRUE)
+    postCollegeFriends <- subset(weddingGuests, is_post_college_friend == TRUE)
+    attendedRehearsalDinner <- subset(weddingGuests, attended_rehearsal_dinner == TRUE)
+    attendedWelcomeParty <- subset(weddingGuests, attended_welcome_party == TRUE)
+    # fix this later and correct the data as well ("heard_from" instead of "heardFrom") so that it's more uniform.
+    heardFrom <- subset(weddingGuests, heardFrom == TRUE)
+    # isOfficiant <- subset(weddingGuests, is_officiant == TRUE)
+    isVendor <- subset(weddingGuests, is_vendor == TRUE | is_officiant == TRUE)
+    
+    
+    if ("everyone" %in% input$guestTypeSelect) {
+      guests_to_be_plotted <- rbind(guests_to_be_plotted, everyone)
+    }
+    if ("is_couple" %in% input$guestTypeSelect) {
+      guests_to_be_plotted <- rbind(guests_to_be_plotted, couple)
+    }
+    if ("invited" %in% input$guestTypeSelect) {
+      guests_to_be_plotted <- rbind(guests_to_be_plotted, invited)
+    }
+    if ("attended_wedding" %in% input$guestTypeSelect) {
+      guests_to_be_plotted <- rbind(guests_to_be_plotted, attendedWedding)
+    }
+    if ("brides_side" %in% input$guestTypeSelect) {
+      guests_to_be_plotted <- rbind(guests_to_be_plotted, bridesSide)
+    }
+    if ("grooms_side" %in% input$guestTypeSelect) {
+      guests_to_be_plotted <- rbind(guests_to_be_plotted, groomsSide)
+    }
+    if ("couples_side" %in% input$guestTypeSelect) {
+      guests_to_be_plotted <- rbind(guests_to_be_plotted, couplesSide)
+    }
+    if ("wedding_party" %in% input$guestTypeSelect) {
+      guests_to_be_plotted <- rbind(guests_to_be_plotted, weddingParty)
+    }
+    if ("brides_family" %in% input$guestTypeSelect) {
+      guests_to_be_plotted <- rbind(guests_to_be_plotted, bridesFamily)
+    }
+    if ("grooms_family" %in% input$guestTypeSelect) {
+      guests_to_be_plotted <- rbind(guests_to_be_plotted, groomsFamily)
+    }
+    if ("family" %in% input$guestTypeSelect) {
+      guests_to_be_plotted <- rbind(guests_to_be_plotted, family)
+    }
+    if ("friends" %in% input$guestTypeSelect) {
+      guests_to_be_plotted <- rbind(guests_to_be_plotted, friends)
+    }
+    if ("family_friends" %in% input$guestTypeSelect) {
+      guests_to_be_plotted <- rbind(guests_to_be_plotted, familyFriends)
+    }
+    if ("pre_college_friends" %in% input$guestTypeSelect) {
+      guests_to_be_plotted <- rbind(guests_to_be_plotted, preCollegeFriends)
+    }
+    if ("college_friends" %in% input$guestTypeSelect) {
+      guests_to_be_plotted <- rbind(guests_to_be_plotted, collegeFriends)
+    }
+    if ("post_college_friends" %in% input$guestTypeSelect) {
+      guests_to_be_plotted <- rbind(guests_to_be_plotted, postCollegeFriends)
+    }
+    if ("attended_rehearsal_dinner" %in% input$guestTypeSelect) {
+      guests_to_be_plotted <- rbind(guests_to_be_plotted, attendedRehearsalDinner)
+    }
+    if ("attended_welcome_party" %in% input$guestTypeSelect) {
+      guests_to_be_plotted <- rbind(guests_to_be_plotted, attendedWelcomeParty)
+    }
+    if ("heard_from" %in% input$guestTypeSelect) {
+      guests_to_be_plotted <- rbind(guests_to_be_plotted, heardFrom)
+    }
+    if ("is_vendor" %in% input$guestTypeSelect) {
+      guests_to_be_plotted <- rbind(guests_to_be_plotted, isVendor)
     }
     
-    return(weddingGuests)
+    noDuplicateGuests <- guests_to_be_plotted[!duplicated(guests_to_be_plotted), ]
+    
+    # end of new stuff
+    
+    return(noDuplicateGuests)
     
   })
+    
+    
+    
+    
+    
+    
+    # # # types of guests
+    # # if (length(input$guestStateSelect > 1)) {
+    # #   weddingGuests <- subset(weddingGuests, state %in% input$guestStateSelect)
+    # # } else {
+    # #   weddingGuests <- subset(weddingGuests, state == input$guestStateSelect)
+    # # }
+    # 
+    # # types of guests
+    # if (length(input$guestTypeSelect > 1)) {
+    #   weddingGuests <- subset(weddingGuests, state %in% input$guestStateSelect)
+    #   
+    #   # print(class(weddingGuests))
+    #   # weddingGuests <- subset(weddingGuests, summary(groups) %in% input$guestTypeSelect)
+    # } else {
+    #   weddingGuests <- subset(weddingGuests, groups == input$guestStateSelect)
+    # }
+    
+    
   
   
-  # not entirely sure why this isn't working...?
-  observe({
-    weddingGuests <- weddingGuestsInputs()
-    # data is guests
-    leafletProxy("leaflet", data = weddingGuests) %>%
-      # clearGeoJSON("weddingGuests") %>%
-      clearGroup(group = "weddingGuests") %>%
-      clearMarkerClusters() %>%
-      clearMarkers() %>%
-      addMarkers(
-        weddingGuests$coords,
-        popup = ~as.character(popupContent),
-        clusterOptions = markerClusterOptions()
-      )
-  })
+  # # not entirely sure why this isn't working...?
+  # observe({
+  #   weddingGuests <- weddingGuestsInputs()
+  #   # data is guests
+  #   leafletProxy("leaflet", data = weddingGuests) %>%
+  #     # clearGeoJSON("weddingGuests") %>%
+  #     clearGroup(group = "weddingGuests") %>%
+  #     clearMarkerClusters() %>%
+  #     clearMarkers() %>%
+  #     addMarkers(
+  #       weddingGuests$coords,
+  #       popup = ~as.character(popupContent),
+  #       clusterOptions = markerClusterOptions()
+  #     )
+  # })
   
   # output$leaflet <- renderLeaflet(
   #   
