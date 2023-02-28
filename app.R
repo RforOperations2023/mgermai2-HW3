@@ -300,6 +300,7 @@ server <- function(input, output) {
       guests_to_be_plotted <- rbind(guests_to_be_plotted, isVendor)
     }
     
+    # https://stackoverflow.com/questions/13967063/remove-duplicated-rows
     noDuplicateGuests <- guests_to_be_plotted[!duplicated(guests_to_be_plotted), ]
     
     # end of new stuff
