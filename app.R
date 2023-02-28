@@ -14,12 +14,16 @@ require(stringr)
 require(shinythemes)
 library(shinyjs)
 library(rgeos)
+library(geojsonio)
 
 
 # weddingGuests <- st_read("https://raw.githubusercontent.com/mgermaine93/wedding-guest-map/master/constants/guests.geojson")
 
 weddingGuests <- st_read("data/guests.geojson")
 
+# I wonder if I can load in my static file of states?
+states <- geojsonio::geojson_read("https://rstudio.github.io/leaflet/json/us-states.geojson", what = "sp")
+class(states)
 
 
 
@@ -51,8 +55,13 @@ ui <- dashboardPage(
       # the first "page" of the app, seen in the upper left of the app
       # it corresponds with the tabItem that has the same tabName value as this one.
       menuItem(
-        "Map of Guests", 
-        tabName = "leaflet",
+        "Map of Guests (Clusters)", 
+        tabName = "leafletClusters",
+        icon = icon("map")
+      ),
+      menuItem(
+        "Map of Guests (Heatmap)", 
+        tabName = "leafletHeatmap",
         icon = icon("map")
       ),
       # the second "page" of the app, seen in the upper left of the app
@@ -122,20 +131,37 @@ ui <- dashboardPage(
       )
     )
   ),
-    
+  
   # this is the part that actually holds the plotted data
   dashboardBody(
-      
+    
     tabItems(
-        
+      
       tabItem(
-          
-        tabName = "leaflet",
+        
+        tabName = "leafletClusters",
         fluidRow(
           box(
             width = 12,
             leafletOutput(
-              "leaflet",
+              "leafletClusters",
+              width = "100%",
+              # might need to change this depending on the DT/tables/graphs, etc
+              # https://stackoverflow.com/questions/36469631/how-to-get-leaflet-for-r-use-100-of-shiny-dashboard-height
+              height = "95vh"
+            )
+          )
+        )
+      ),
+      
+      tabItem(
+        
+        tabName = "leafletHeatmap",
+        fluidRow(
+          box(
+            width = 12,
+            leafletOutput(
+              "leafletHeatmap",
               width = "100%",
               # might need to change this depending on the DT/tables/graphs, etc
               # https://stackoverflow.com/questions/36469631/how-to-get-leaflet-for-r-use-100-of-shiny-dashboard-height
@@ -144,6 +170,7 @@ ui <- dashboardPage(
           )
         )
       )
+      
     )
   )
 )
@@ -151,60 +178,6 @@ ui <- dashboardPage(
 
 
 server <- function(input, output) {
-  
-  # load in wedding guest filtered data
-  output$leaflet <- renderLeaflet({
-    
-    # this is important!  otherwise, some kind of circuitous loading happens for some reason.
-    weddingGuests <- weddingGuestsInputs()
-    
-    leaflet(data = weddingGuests) %>%
-      addProviderTiles(providers$OpenTopoMap, group = "NatGeo", options = providerTileOptions(noWrap = TRUE)) %>%
-      # addProviderTiles(providers$Stamen.TerrainLabels, options = providerTileOptions(noWrap = TRUE)) %>%
-      # addProviderTiles(providers$NASAGIBS.ViirsEarthAtNight2012, group = "Earth at Night", options = providerTileOptions(minZoom = 1)) %>%
-      
-      # addProviderTiles(
-      #   # http://leaflet-extras.github.io/leaflet-providers/preview/index.html
-      #   "Stamen.Toner",
-      #   "OpenTopoMap",
-      #   "Thunderforest.Neighbourhood",
-      #   "Thunderforest.Pioneer",
-      #   "Stamen.Watercolor",
-      #   "Stamen.Terrain",
-      #   "Stamen.TerrainBackground",
-      #   "Stamen.TerrainLabels",
-      #   "Stamen.TopOSMRelief",
-      #   "Esri.NatGeoWorldMap"
-      # ) %>%
-      addLayersControl(
-        baseGroups = c(
-          # "Google", 
-          # "Stamen.Toner",
-          # "OpenTopoMap",
-          # "Thunderforest.Neighbourhood",
-          # "Thunderforest.Pioneer",
-          "Stamen.Watercolor"
-          # "Stamen.Terrain",
-          # "Stamen.TerrainBackground",
-          # "Stamen.TerrainLabels"
-          # "Esri.NatGeoWorldMap"
-          # "NASAGIBS.ViirsEarthAtNight2012"
-          # "Stamen.TopOSMRelief",
-          # "Esri.NatGeoWorldMap"
-        )
-      ) %>%
-      setView(
-        lng = -98.583,
-        lat = 39.833,
-        zoom = 5
-      ) %>%
-      addMarkers(
-        weddingGuests$coords,
-        popup = ~as.character(popupContent),
-        clusterOptions = markerClusterOptions()
-      )
-    
-  })
   
   weddingGuestsInputs <- reactive({
     
@@ -308,30 +281,140 @@ server <- function(input, output) {
     return(noDuplicateGuests)
     
   })
+  
+  bins <- c(0, 10, 20, 50, 100, 200, 500, 1000, Inf)
+  pal <- colorBin("YlOrRd", domain = states$density, bins = bins)
+  labels <- sprintf(
+    "<strong>%s</strong><br/>%g people / mi<sup>2</sup>",
+    states$name, states$density
+  ) %>% 
+    lapply(htmltools::HTML)
+  
+  
+  # load in wedding guest filtered data
+  output$leafletClusters <- renderLeaflet({
     
+    # this is important!  otherwise, some kind of circuitous loading happens for some reason.
+    weddingGuests <- weddingGuestsInputs()
     
+    leaflet(data = weddingGuests) %>%
+      addProviderTiles(providers$OpenTopoMap, group = "OpenTopoMap", options = providerTileOptions(noWrap = TRUE)) %>%
+      setView(
+        lng = -98.583,
+        lat = 39.833,
+        zoom = 5
+      ) %>%
+      addMarkers(
+        weddingGuests$coords,
+        popup = ~as.character(popupContent),
+        clusterOptions = markerClusterOptions()
+      )
     
+  })
+      # addProviderTiles(providers$Stamen.TerrainLabels, options = providerTileOptions(noWrap = TRUE)) %>%
+      # addProviderTiles(providers$NASAGIBS.ViirsEarthAtNight2012, group = "Earth at Night", options = providerTileOptions(minZoom = 1)) %>%
+      
+      # addProviderTiles(
+      #   # http://leaflet-extras.github.io/leaflet-providers/preview/index.html
+      #   "Stamen.Toner",
+      #   "OpenTopoMap",
+      #   "Thunderforest.Neighbourhood",
+      #   "Thunderforest.Pioneer",
+      #   "Stamen.Watercolor",
+      #   "Stamen.Terrain",
+    #   "Stamen.TerrainBackground",
+    #   "Stamen.TerrainLabels",
+    #   "Stamen.TopOSMRelief",
+    #   "Esri.NatGeoWorldMap"
+    # ) %>%
+    # addLayersControl(
+    #   baseGroups = c(
+    #     # "Google", 
+    #     # "Stamen.Toner",
+    #     # "OpenTopoMap",
+    #     # "Thunderforest.Neighbourhood",
+    #     # "Thunderforest.Pioneer",
+    #     "Stamen.Watercolor"
+    #     # "Stamen.Terrain",
+    #     # "Stamen.TerrainBackground",
+    #     # "Stamen.TerrainLabels"
+    #     # "Esri.NatGeoWorldMap"
+    #     # "NASAGIBS.ViirsEarthAtNight2012"
+    #     # "Stamen.TopOSMRelief",
+    #     # "Esri.NatGeoWorldMap"
+    #   )
+    # ) %>%
+
+  
+  
+  
+  
+  # HEATMAP
+  # https://rstudio.github.io/leaflet/choropleths.html
+  # load in wedding guest filtered data
+  output$leafletHeatmap <- renderLeaflet({
     
+    # # this is important!  otherwise, some kind of circuitous loading happens for some reason.
+    # weddingGuests <- weddingGuestsInputs()
     
-    
-    # # # types of guests
-    # # if (length(input$guestStateSelect > 1)) {
-    # #   weddingGuests <- subset(weddingGuests, state %in% input$guestStateSelect)
-    # # } else {
-    # #   weddingGuests <- subset(weddingGuests, state == input$guestStateSelect)
-    # # }
-    # 
-    # # types of guests
-    # if (length(input$guestTypeSelect > 1)) {
-    #   weddingGuests <- subset(weddingGuests, state %in% input$guestStateSelect)
-    #   
-    #   # print(class(weddingGuests))
-    #   # weddingGuests <- subset(weddingGuests, summary(groups) %in% input$guestTypeSelect)
-    # } else {
-    #   weddingGuests <- subset(weddingGuests, groups == input$guestStateSelect)
-    # }
-    
-    
+    leaflet(states) %>%
+      setView(-96, 37.8, 4) %>%
+      addProviderTiles(providers$Stamen.Toner, group = "Stamen.Toner", options = providerTileOptions(noWrap = TRUE)) %>%
+      addPolygons(
+        # this will need to change so it reflects the wedding data densities
+        fillColor = ~pal(density),
+        weight = 2,
+        opacity = 1,
+        color = "white",
+        dashArray = "3",
+        fillOpacity = 0.7,
+        highlightOptions = highlightOptions(
+          weight = 5,
+          color = "#666",
+          dashArray = "",
+          fillOpacity = 0.7,
+          bringToFront = TRUE),
+        label = labels,
+        labelOptions = labelOptions(
+          style = list("font-weight" = "normal", padding = "3px 8px"),
+          textsize = "15px",
+          direction = "auto"
+        )
+      ) %>%
+      addLegend(
+        pal = pal, 
+        values = ~density, 
+        opacity = 0.7, 
+        title = NULL,
+        position = "bottomright"
+      )
+  })
+  
+  
+  
+  
+  
+  
+  
+  
+  # # # types of guests
+  # # if (length(input$guestStateSelect > 1)) {
+  # #   weddingGuests <- subset(weddingGuests, state %in% input$guestStateSelect)
+  # # } else {
+  # #   weddingGuests <- subset(weddingGuests, state == input$guestStateSelect)
+  # # }
+  # 
+  # # types of guests
+  # if (length(input$guestTypeSelect > 1)) {
+  #   weddingGuests <- subset(weddingGuests, state %in% input$guestStateSelect)
+  #   
+  #   # print(class(weddingGuests))
+  #   # weddingGuests <- subset(weddingGuests, summary(groups) %in% input$guestTypeSelect)
+  # } else {
+  #   weddingGuests <- subset(weddingGuests, groups == input$guestStateSelect)
+  # }
+  
+  
   
   
   # # not entirely sure why this isn't working...?
@@ -349,23 +432,6 @@ server <- function(input, output) {
   #       clusterOptions = markerClusterOptions()
   #     )
   # })
-  
-  # output$leaflet <- renderLeaflet(
-  #   
-  #   map <- leaflet(data = weddingGuests) %>%
-  #     addTiles() %>%
-  #     setView(
-  #       lng = -98.583,
-  #       lat = 39.833,
-  #       zoom = 5
-  #     ) %>%
-  #     addMarkers(
-  #       weddingGuests$coords,
-  #       popup = ~as.character(popupContent),
-  #       clusterOptions = markerClusterOptions()
-  #     )
-  #   
-  # )
   
 }
 
