@@ -12,6 +12,8 @@ require(dplyr)
 require(readxl)
 require(stringr)
 require(shinythemes)
+library(shinyjs)
+library(rgeos)
 
 
 # weddingGuests <- st_read("https://raw.githubusercontent.com/mgermaine93/wedding-guest-map/master/constants/guests.geojson")
@@ -65,7 +67,7 @@ ui <- dashboardPage(
       menuItem(
         "Wedding Guests by State", 
         tabName = "plotByState",
-        icon = icon("michigan")
+        icon = icon("chart-column")
       ),
       
       selectizeInput(
@@ -153,18 +155,51 @@ server <- function(input, output) {
   # load in wedding guest filtered data
   output$leaflet <- renderLeaflet({
     
-    guests <- weddingGuestsInputs()
+    # this is important!  otherwise, some kind of circuitous loading happens for some reason.
+    weddingGuests <- weddingGuestsInputs()
     
-    leaflet(data = guests) %>%
-      addTiles(urlTemplate = "http://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga", attribution = "Google") %>%
-      addLayersControl(baseGroups = c("Google", "Wiki")) %>%
+    leaflet(data = weddingGuests) %>%
+      addProviderTiles(providers$NASAGIBS.ViirsEarthAtNight2012, group = "NatGeo", options = providerTileOptions(noWrap = TRUE)) %>%
+      # addProviderTiles(providers$Stamen.TerrainLabels, options = providerTileOptions(noWrap = TRUE)) %>%
+      # addProviderTiles(providers$NASAGIBS.ViirsEarthAtNight2012, group = "Earth at Night", options = providerTileOptions(minZoom = 1)) %>%
+      
+      # addProviderTiles(
+      #   # http://leaflet-extras.github.io/leaflet-providers/preview/index.html
+      #   "Stamen.Toner",
+      #   "OpenTopoMap",
+      #   "Thunderforest.Neighbourhood",
+      #   "Thunderforest.Pioneer",
+      #   "Stamen.Watercolor",
+      #   "Stamen.Terrain",
+      #   "Stamen.TerrainBackground",
+      #   "Stamen.TerrainLabels",
+      #   "Stamen.TopOSMRelief",
+      #   "Esri.NatGeoWorldMap"
+      # ) %>%
+      addLayersControl(
+        baseGroups = c(
+          # "Google", 
+          # "Stamen.Toner",
+          # "OpenTopoMap",
+          # "Thunderforest.Neighbourhood",
+          # "Thunderforest.Pioneer",
+          "Stamen.Watercolor"
+          # "Stamen.Terrain",
+          # "Stamen.TerrainBackground",
+          # "Stamen.TerrainLabels"
+          # "Esri.NatGeoWorldMap"
+          # "NASAGIBS.ViirsEarthAtNight2012"
+          # "Stamen.TopOSMRelief",
+          # "Esri.NatGeoWorldMap"
+        )
+      ) %>%
       setView(
         lng = -98.583,
         lat = 39.833,
         zoom = 5
       ) %>%
       addMarkers(
-        guests$coords,
+        weddingGuests$coords,
         popup = ~as.character(popupContent),
         clusterOptions = markerClusterOptions()
       )
@@ -184,6 +219,23 @@ server <- function(input, output) {
     
     return(weddingGuests)
     
+  })
+  
+  
+  # not entirely sure why this isn't working...?
+  observe({
+    weddingGuests <- weddingGuestsInputs()
+    # data is guests
+    leafletProxy("leaflet", data = weddingGuests) %>%
+      # clearGeoJSON("weddingGuests") %>%
+      clearGroup(group = "weddingGuests") %>%
+      clearMarkerClusters() %>%
+      clearMarkers() %>%
+      addMarkers(
+        weddingGuests$coords,
+        popup = ~as.character(popupContent),
+        clusterOptions = markerClusterOptions()
+      )
   })
   
   # output$leaflet <- renderLeaflet(
