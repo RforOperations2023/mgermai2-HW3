@@ -5,6 +5,7 @@ library(maps)
 library(jsonlite)
 library(st)
 library(shinydashboard)
+library(dashboardthemes)
 require(sf)
 require(leaflet)
 require(leaflet.extras)
@@ -19,31 +20,35 @@ library(RColorBrewer)
 library(plotly)
 library(ggplot2)
 library(DT)
-
+library(bslib)
 # weddingGuests <- st_read("https://raw.githubusercontent.com/mgermaine93/wedding-guest-map/master/constants/guests.geojson")
 # states <- st_read("https://raw.githubusercontent.com/mgermaine93/wedding-guest-map/master/constants/us-states.geojson")
 # states <- geojsonio::geojson_read("https://rstudio.github.io/leaflet/json/us-states.geojson", what = "sp")
 
 
+# To-Do:
+#   * Add datatables
+#   * Add download handler
+#   * Add observer(s) to main cluster map
+#   * Add text to the ABOUT page 
+#   * Add in a few more map tiles to each map 
+#   * Add comments to code
+#   * Fix bar plots (they are no longer working for some reason)
+#   * (If time) Add in functionality that factors in guest type for the two bar charts (the fill in this case would be guest type)
+ 
 weddingGuests <- st_read("data/guests.geojson")
 states <- st_read("data/us-states.geojson")
 
 # ui part begins here
 ui <- dashboardPage(
   
-  skin = "green",
-  
-  # sets the theme/coloring of the app
-  # theme = shinytheme("cerulean"),
-  
+  skin = "black",
   
   # sets the title of the app
   dashboardHeader(
     title = "Meredith and Matt's Wedding Guest Map",
     titleWidth = 400
   ),
-  
-  
   
   # user input part
   dashboardSidebar(
@@ -52,8 +57,6 @@ ui <- dashboardPage(
     
     sidebarMenu(
       id = "tabs",
-      # the first "page" of the app, seen in the upper left of the app
-      # it corresponds with the tabItem that has the same tabName value as this one.
       menuItem(
         "Map of Guests (Clusters)", 
         tabName = "leafletClusters",
@@ -62,21 +65,22 @@ ui <- dashboardPage(
       menuItem(
         "Map of Guests (Heatmap)", 
         tabName = "leafletHeatmap",
-        icon = icon("map")
+        icon = icon("fire")
       ),
-      # the second "page" of the app, seen in the upper left of the app
-      # it corresponds with the tabItem that has the same tabName value as this one.
       menuItem(
         "Wedding Guests by Generational Age", 
         tabName = "plotByGeneration",
-        icon = icon("chart-column")
+        icon = icon("person-cane")
       ),
-      # the third "page" of the app, seen in the upper left of the app
-      # it corresponds with the tabItem that has the same tabName value as this one
       menuItem(
         "Wedding Guests by State", 
         tabName = "plotByState",
-        icon = icon("chart-column")
+        icon = icon("flag-usa")
+      ),
+      menuItem(
+        "About this Project", 
+        tabName = "about",
+        icon = icon("question")
       ),
       
       selectizeInput(
@@ -105,8 +109,8 @@ ui <- dashboardPage(
           "Vendors" = "is_vendor"
         ),
         selected = c(
-          "Couple",
-          "Wedding Party"
+          "is_couple",
+          "wedding_party"
         ),
         multiple = TRUE
         
@@ -116,7 +120,11 @@ ui <- dashboardPage(
         inputId = "guestGenerationSelect",
         label = "Guest Generation",
         # might rename these labels later...
-        choices = c(unique(sort(weddingGuests$generation)))
+        choices = c(unique(sort(weddingGuests$generation))),
+        selected = c(
+          "Millennial",
+          "Baby Boomer"
+        )
       ),
       selectizeInput(
         inputId = "guestStateSelect",
@@ -148,7 +156,7 @@ ui <- dashboardPage(
               width = "100%",
               # might need to change this depending on the DT/tables/graphs, etc
               # https://stackoverflow.com/questions/36469631/how-to-get-leaflet-for-r-use-100-of-shiny-dashboard-height
-              height = "95vh"
+              height = "90vh"
             )
           )
         )
@@ -165,7 +173,7 @@ ui <- dashboardPage(
               width = "100%",
               # might need to change this depending on the DT/tables/graphs, etc
               # https://stackoverflow.com/questions/36469631/how-to-get-leaflet-for-r-use-100-of-shiny-dashboard-height
-              height = "95vh"
+              height = "90vh"
             )
           )
         )
@@ -212,6 +220,42 @@ ui <- dashboardPage(
             plotlyOutput("guestsByGeneration")
           )
         )
+      ),
+        
+      tabItem(
+        
+        tabName = "about",
+        
+        # # first row is the name of the page
+        # h2("About this Project"),
+        
+        # https://stackoverflow.com/questions/44279773/r-shiny-add-picture-to-box-in-fluid-row-with-text
+        fluidRow(
+          box(
+            title = "Meredith and Matt's Wedding",
+            status = "primary",
+            solidHeader = F,
+            collapsible = F,
+            width = 12,
+            fluidRow(
+              column(
+                width = 6,
+                textOutput( "aboutText" )
+              ),
+              column(
+                width = 6,
+                align = "center",
+                img(
+                  src = "eyre-germaine466.jpg", 
+                  width = "100%",
+                  height = "100%",
+                  align = "center"
+                )
+              )
+            )
+          )
+        )
+      )
         
         # # fourth row is the data table corresponding to the plot
         # fluidRow(
@@ -223,8 +267,7 @@ ui <- dashboardPage(
         #     ),
         #   )
         # )
-      )
-      
+    
     )
   )
 )
@@ -350,7 +393,7 @@ server <- function(input, output) {
     # noDuplicateGuests <- weddingGuests[!duplicated(weddingGuests), ]
     
     leaflet(data = weddingGuests) %>%
-      addProviderTiles(providers$OpenTopoMap, group = "OpenTopoMap", options = providerTileOptions(noWrap = TRUE)) %>%
+      addProviderTiles(providers$OpenStreetMap.Mapnik, group = "OpenStreetMap.Mapnik", options = providerTileOptions(noWrap = TRUE)) %>%
       setView(
         lng = -98.583,
         lat = 39.833,
@@ -363,43 +406,6 @@ server <- function(input, output) {
       )
     
   })
-      # addProviderTiles(providers$Stamen.TerrainLabels, options = providerTileOptions(noWrap = TRUE)) %>%
-      # addProviderTiles(providers$NASAGIBS.ViirsEarthAtNight2012, group = "Earth at Night", options = providerTileOptions(minZoom = 1)) %>%
-      
-      # addProviderTiles(
-      #   # http://leaflet-extras.github.io/leaflet-providers/preview/index.html
-      #   "Stamen.Toner",
-      #   "OpenTopoMap",
-      #   "Thunderforest.Neighbourhood",
-      #   "Thunderforest.Pioneer",
-      #   "Stamen.Watercolor",
-      #   "Stamen.Terrain",
-    #   "Stamen.TerrainBackground",
-    #   "Stamen.TerrainLabels",
-    #   "Stamen.TopOSMRelief",
-    #   "Esri.NatGeoWorldMap"
-    # ) %>%
-    # addLayersControl(
-    #   baseGroups = c(
-    #     # "Google", 
-    #     # "Stamen.Toner",
-    #     # "OpenTopoMap",
-    #     # "Thunderforest.Neighbourhood",
-    #     # "Thunderforest.Pioneer",
-    #     "Stamen.Watercolor"
-    #     # "Stamen.Terrain",
-    #     # "Stamen.TerrainBackground",
-    #     # "Stamen.TerrainLabels"
-    #     # "Esri.NatGeoWorldMap"
-    #     # "NASAGIBS.ViirsEarthAtNight2012"
-    #     # "Stamen.TopOSMRelief",
-    #     # "Esri.NatGeoWorldMap"
-    #   )
-    # ) %>%
-
-  
-  
-  
   
   # HEATMAP
   # https://rstudio.github.io/leaflet/choropleths.html
@@ -411,7 +417,12 @@ server <- function(input, output) {
     
     leaflet(states) %>%
       setView(-96, 37.8, 4) %>%
-      addProviderTiles(providers$Stamen.Toner, group = "Stamen.Toner", options = providerTileOptions(noWrap = TRUE)) %>%
+      addProviderTiles(providers$OpenStreetMap.Mapnik, group = "OpenStreetMap.Mapnik", options = providerTileOptions(noWrap = TRUE)) %>%
+      setView(
+        lng = -98.583,
+        lat = 39.833,
+        zoom = 5
+      ) %>%
       addPolygons(
         # this will need to change so it reflects the wedding data densities
         fillColor = ~pal(density),
@@ -495,7 +506,6 @@ server <- function(input, output) {
   })
   
   
-  
   output$guestsByGeneration <- renderPlotly({
     
     ggplotly(
@@ -523,6 +533,10 @@ server <- function(input, output) {
     )
     
   })
+  
+  output$aboutText <- renderText(
+    "This text here will include details about the project and perhaps about our wedding..."
+  )
   
   
 }
