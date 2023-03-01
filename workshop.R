@@ -7,21 +7,387 @@ library(st)
 require(sf)
 require(leaflet)
 require(leaflet.extras)
-
+require(tidyjson)
 require(dplyr)
 require(readxl)
 require(stringr)
+require(tidyverse)
 
 
 weddingGuests <- st_read("data/guests.geojson")
 
 input = list(
-  type = c("attended_wedding", "in_wedding_party")
+  guestTypeSelect = c("attended_wedding", "in_wedding_party"),
+  guestStateSelect = c("Michigan", "Pennsylvania")
 )
+
+
+weddingGuestsInputs <- reactive({
+  
+  weddingGuests <- weddingGuests
+  
+  # new stuff here
+  
+  # https://stackoverflow.com/questions/49851381/empty-a-data-frame-keep-colnames-headers-only
+  guests_to_be_plotted <- weddingGuests[FALSE, ]
+  
+  everyone <- weddingGuests
+  couple <- subset(weddingGuests, is_bride == TRUE | is_groom == TRUE)
+  invited <- subset(weddingGuests, invited == TRUE)
+  attendedWedding <- subset(weddingGuests, attended_wedding == TRUE)
+  bridesSide <- subset(weddingGuests, inviter == "Eyre")
+  groomsSide <- subset(weddingGuests, inviter == "Germaine")
+  couplesSide <- subset(weddingGuests, inviter == "Couple")
+  weddingParty <- subset(weddingGuests, in_wedding_party == TRUE)
+  bridesFamily <- subset(weddingGuests, is_family == TRUE & inviter == "Eyre")
+  groomsFamily <- subset(weddingGuests, is_family == TRUE & inviter == "Germaine")
+  family <- subset(weddingGuests, is_family == TRUE)
+  friends <- subset(weddingGuests, is_friend == TRUE)
+  familyFriends <- subset(weddingGuests, is_family_friend == TRUE)
+  preCollegeFriends <- subset(weddingGuests, is_pre_college_friend == TRUE)
+  collegeFriends <- subset(weddingGuests, is_college_friend == TRUE)
+  postCollegeFriends <- subset(weddingGuests, is_post_college_friend == TRUE)
+  attendedRehearsalDinner <- subset(weddingGuests, attended_rehearsal_dinner == TRUE)
+  attendedWelcomeParty <- subset(weddingGuests, attended_welcome_party == TRUE)
+  # fix this later and correct the data as well ("heard_from" instead of "heardFrom") so that it's more uniform.
+  heardFrom <- subset(weddingGuests, heardFrom == TRUE)
+  # isOfficiant <- subset(weddingGuests, is_officiant == TRUE)
+  isVendor <- subset(weddingGuests, is_vendor == TRUE | is_officiant == TRUE)
+  
+  
+  if ("everyone" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, everyone)
+  }
+  if ("is_couple" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, couple)
+  }
+  if ("invited" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, invited)
+  }
+  if ("attended_wedding" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, attendedWedding)
+  }
+  if ("brides_side" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, bridesSide)
+  }
+  if ("grooms_side" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, groomsSide)
+  }
+  if ("couples_side" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, couplesSide)
+  }
+  if ("wedding_party" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, weddingParty)
+  }
+  if ("brides_family" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, bridesFamily)
+  }
+  if ("grooms_family" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, groomsFamily)
+  }
+  if ("family" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, family)
+  }
+  if ("friends" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, friends)
+  }
+  if ("family_friends" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, familyFriends)
+  }
+  if ("pre_college_friends" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, preCollegeFriends)
+  }
+  if ("college_friends" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, collegeFriends)
+  }
+  if ("post_college_friends" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, postCollegeFriends)
+  }
+  if ("attended_rehearsal_dinner" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, attendedRehearsalDinner)
+  }
+  if ("attended_welcome_party" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, attendedWelcomeParty)
+  }
+  if ("heard_from" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, heardFrom)
+  }
+  if ("is_vendor" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, isVendor)
+  }
+  
+  # https://stackoverflow.com/questions/13967063/remove-duplicated-rows
+  noDuplicateGuests <- guests_to_be_plotted[!duplicated(guests_to_be_plotted), ]
+  
+  # end of new stuff
+  
+  return(noDuplicateGuests)
+  
+})
+
+
+
+dhat <- weddingGuests %>%
+  filter(state %in% input$guestStateSelect) %>%
+  # select(state) %>%
+  group_by(state) %>%
+  arrange(state) %>%
+  summarize(n = n()) %>%
+  rename("num_guests" = n) %>%
+  ggplot(
+  dhat,
+  mapping = aes(
+    # fill = generation,
+    x = state,
+    y = num_guests
+  ) +
+  geom_bar(
+    position = "dodge",
+    stat = "identity"
+  )
+)
+
+
+
+
+print(class(dhat))
+    # group_by(state)
+    # summarize(n = n()) %>%
+    # rename("num_dogs" = n)
+  # print("---dhat"); return(result);
+
+
+
+
+
+
+
 
 print(input$type[1])
 
 print(length(input$type))
+
+
+weddingGuestsInputs <- reactive({
+  
+  weddingGuests <- weddingGuests
+  
+  # new stuff here
+  
+  # https://stackoverflow.com/questions/49851381/empty-a-data-frame-keep-colnames-headers-only
+  guests_to_be_plotted <- weddingGuests[FALSE, ]
+  
+  everyone <- weddingGuests
+  couple <- subset(weddingGuests, is_bride == TRUE | is_groom == TRUE)
+  invited <- subset(weddingGuests, invited == TRUE)
+  attendedWedding <- subset(weddingGuests, attended_wedding == TRUE)
+  bridesSide <- subset(weddingGuests, inviter == "Eyre")
+  groomsSide <- subset(weddingGuests, inviter == "Germaine")
+  couplesSide <- subset(weddingGuests, inviter == "Couple")
+  weddingParty <- subset(weddingGuests, in_wedding_party == TRUE)
+  bridesFamily <- subset(weddingGuests, is_family == TRUE & inviter == "Eyre")
+  groomsFamily <- subset(weddingGuests, is_family == TRUE & inviter == "Germaine")
+  family <- subset(weddingGuests, is_family == TRUE)
+  friends <- subset(weddingGuests, is_friend == TRUE)
+  familyFriends <- subset(weddingGuests, is_family_friend == TRUE)
+  preCollegeFriends <- subset(weddingGuests, is_pre_college_friend == TRUE)
+  collegeFriends <- subset(weddingGuests, is_college_friend == TRUE)
+  postCollegeFriends <- subset(weddingGuests, is_post_college_friend == TRUE)
+  attendedRehearsalDinner <- subset(weddingGuests, attended_rehearsal_dinner == TRUE)
+  attendedWelcomeParty <- subset(weddingGuests, attended_welcome_party == TRUE)
+  # fix this later and correct the data as well ("heard_from" instead of "heardFrom") so that it's more uniform.
+  heardFrom <- subset(weddingGuests, heardFrom == TRUE)
+  # isOfficiant <- subset(weddingGuests, is_officiant == TRUE)
+  isVendor <- subset(weddingGuests, is_vendor == TRUE | is_officiant == TRUE)
+  
+  
+  if ("everyone" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, everyone)
+  }
+  if ("is_couple" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, couple)
+  }
+  if ("invited" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, invited)
+  }
+  if ("attended_wedding" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, attendedWedding)
+  }
+  if ("brides_side" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, bridesSide)
+  }
+  if ("grooms_side" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, groomsSide)
+  }
+  if ("couples_side" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, couplesSide)
+  }
+  if ("wedding_party" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, weddingParty)
+  }
+  if ("brides_family" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, bridesFamily)
+  }
+  if ("grooms_family" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, groomsFamily)
+  }
+  if ("family" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, family)
+  }
+  if ("friends" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, friends)
+  }
+  if ("family_friends" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, familyFriends)
+  }
+  if ("pre_college_friends" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, preCollegeFriends)
+  }
+  if ("college_friends" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, collegeFriends)
+  }
+  if ("post_college_friends" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, postCollegeFriends)
+  }
+  if ("attended_rehearsal_dinner" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, attendedRehearsalDinner)
+  }
+  if ("attended_welcome_party" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, attendedWelcomeParty)
+  }
+  if ("heard_from" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, heardFrom)
+  }
+  if ("is_vendor" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, isVendor)
+  }
+  
+  # https://stackoverflow.com/questions/13967063/remove-duplicated-rows
+  noDuplicateGuests <- guests_to_be_plotted[!duplicated(guests_to_be_plotted), ]
+  
+  # end of new stuff
+  print(noDuplicateGuests)
+  return(noDuplicateGuests)
+  
+})
+
+
+
+
+
+# weddingGuestsInputs(input)
+
+
+
+
+
+weddingGuestsStateInputs <- reactive({
+  
+  weddingGuests <- weddingGuests
+  
+  # new stuff here
+  
+  # https://stackoverflow.com/questions/49851381/empty-a-data-frame-keep-colnames-headers-only
+  states_to_be_plotted <- weddingGuests[FALSE, ]
+  
+  everyone <- weddingGuests
+  couple <- subset(weddingGuests, is_bride == TRUE | is_groom == TRUE)
+  invited <- subset(weddingGuests, invited == TRUE)
+  attendedWedding <- subset(weddingGuests, attended_wedding == TRUE)
+  bridesSide <- subset(weddingGuests, inviter == "Eyre")
+  groomsSide <- subset(weddingGuests, inviter == "Germaine")
+  couplesSide <- subset(weddingGuests, inviter == "Couple")
+  weddingParty <- subset(weddingGuests, in_wedding_party == TRUE)
+  bridesFamily <- subset(weddingGuests, is_family == TRUE & inviter == "Eyre")
+  groomsFamily <- subset(weddingGuests, is_family == TRUE & inviter == "Germaine")
+  family <- subset(weddingGuests, is_family == TRUE)
+  friends <- subset(weddingGuests, is_friend == TRUE)
+  familyFriends <- subset(weddingGuests, is_family_friend == TRUE)
+  preCollegeFriends <- subset(weddingGuests, is_pre_college_friend == TRUE)
+  collegeFriends <- subset(weddingGuests, is_college_friend == TRUE)
+  postCollegeFriends <- subset(weddingGuests, is_post_college_friend == TRUE)
+  attendedRehearsalDinner <- subset(weddingGuests, attended_rehearsal_dinner == TRUE)
+  attendedWelcomeParty <- subset(weddingGuests, attended_welcome_party == TRUE)
+  # fix this later and correct the data as well ("heard_from" instead of "heardFrom") so that it's more uniform.
+  heardFrom <- subset(weddingGuests, heardFrom == TRUE)
+  # isOfficiant <- subset(weddingGuests, is_officiant == TRUE)
+  isVendor <- subset(weddingGuests, is_vendor == TRUE | is_officiant == TRUE)
+  
+  
+  if ("everyone" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, everyone)
+  }
+  if ("is_couple" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, couple)
+  }
+  if ("invited" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, invited)
+  }
+  if ("attended_wedding" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, attendedWedding)
+  }
+  if ("brides_side" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, bridesSide)
+  }
+  if ("grooms_side" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, groomsSide)
+  }
+  if ("couples_side" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, couplesSide)
+  }
+  if ("wedding_party" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, weddingParty)
+  }
+  if ("brides_family" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, bridesFamily)
+  }
+  if ("grooms_family" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, groomsFamily)
+  }
+  if ("family" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, family)
+  }
+  if ("friends" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, friends)
+  }
+  if ("family_friends" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, familyFriends)
+  }
+  if ("pre_college_friends" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, preCollegeFriends)
+  }
+  if ("college_friends" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, collegeFriends)
+  }
+  if ("post_college_friends" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, postCollegeFriends)
+  }
+  if ("attended_rehearsal_dinner" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, attendedRehearsalDinner)
+  }
+  if ("attended_welcome_party" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, attendedWelcomeParty)
+  }
+  if ("heard_from" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, heardFrom)
+  }
+  if ("is_vendor" %in% input$guestTypeSelect) {
+    guests_to_be_plotted <- rbind(guests_to_be_plotted, isVendor)
+  }
+  
+  # https://stackoverflow.com/questions/13967063/remove-duplicated-rows
+  noDuplicateGuests <- guests_to_be_plotted[!duplicated(guests_to_be_plotted), ]
+  
+  # end of new stuff
+  
+  return(noDuplicateGuests)
+  
+})
+
+
+
+
+
 
 # "Everyone" = "everyone",
 # "Couple" = "couple",
