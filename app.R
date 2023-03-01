@@ -15,18 +15,19 @@ require(shinythemes)
 library(shinyjs)
 library(rgeos)
 library(geojsonio)
-
+library(RColorBrewer)
+library(plotly)
+library(ggplot2)
+library(DT)
 
 # weddingGuests <- st_read("https://raw.githubusercontent.com/mgermaine93/wedding-guest-map/master/constants/guests.geojson")
 
 weddingGuests <- st_read("data/guests.geojson")
+states <- st_read("data/us-states.geojson")
 
 # I wonder if I can load in my static file of states?
-states <- geojsonio::geojson_read("https://rstudio.github.io/leaflet/json/us-states.geojson", what = "sp")
-class(states)
-
-
-
+# states <- geojsonio::geojson_read("https://rstudio.github.io/leaflet/json/us-states.geojson", what = "sp")
+# class(states)
 
 # ui part begins here
 ui <- dashboardPage(
@@ -169,6 +170,33 @@ ui <- dashboardPage(
             )
           )
         )
+      ),
+      
+      tabItem(
+        
+        tabName = "plotByState",
+        
+        # first row is the name of the page
+        h2("Guests by State"),
+        
+        # second row is the actual plot
+        fluidRow(
+          box(
+            width = 12,
+            plotlyOutput("guestsByState")
+          )
+        )
+        
+        # # fourth row is the data table corresponding to the plot
+        # fluidRow(
+        #   box(
+        #     width = 12,
+        #     # data table stuff
+        #     DT::dataTableOutput(
+        #       outputId = "licenseTable",
+        #     ),
+        #   )
+        # )
       )
       
     )
@@ -282,13 +310,14 @@ server <- function(input, output) {
     
   })
   
-  bins <- c(0, 10, 20, 50, 100, 200, 500, 1000, Inf)
+  # might adjust this later...
+  bins <- c(0, 1, 2, 3, 5, 10, 20, 50, 100)
+  # bins <- c(0, 10, 20, 50, 100, 200, 500, 1000, Inf)
   pal <- colorBin("YlOrRd", domain = states$density, bins = bins)
   labels <- sprintf(
-    "<strong>%s</strong><br/>%g people / mi<sup>2</sup>",
-    states$name, states$density
+    "<strong>%s</strong><br/>%g guests", states$name, states$density
   ) %>% 
-    lapply(htmltools::HTML)
+  lapply(htmltools::HTML)
   
   
   # load in wedding guest filtered data
@@ -388,6 +417,49 @@ server <- function(input, output) {
         title = NULL,
         position = "bottomright"
       )
+  })
+  
+  
+  dhat <- reactive({
+    result = weddingGuests %>%
+      filter(state %in% input$guestStateSelect) %>%
+      # select(state) %>%
+      # group_by(state, generation) %>%
+      arrange(state) %>%
+      summarize(n = n()) %>%
+      rename("num_guests" = n)
+    print("---dhat"); return(result);
+  })
+  
+  
+  # not working quite right...
+  output$guestsByState <- renderPlotly({
+    
+    ggplotly(
+      dhat() %>%
+        ggplot(
+          mapping = aes(
+            x = state, 
+            y = num_guests, 
+            # color = state,
+          )
+        ) +
+        labs(
+          x = "Guests' State of Residence",
+          y = "Number of Guests",
+          color = "Guest"
+        ) +
+        geom_bar(
+          alpha = 0.5,
+          stat = "identity",
+          # http://www.sthda.com/english/wiki/ggplot2-barplots-quick-start-guide-r-software-and-data-visualization#create-barplots-1
+          position = position_dodge()
+        ) + 
+        scale_fill_brewer(palette = "Set1") + 
+        ggtitle(paste(str_interp("Wedding Guests by State of Residence at the Time of the Wedding"))) +
+        theme(plot.title = element_text(hjust = 0.5))
+    )
+    
   })
   
   
