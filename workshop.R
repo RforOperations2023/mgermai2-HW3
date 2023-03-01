@@ -12,14 +12,93 @@ require(dplyr)
 require(readxl)
 require(stringr)
 require(tidyverse)
+library(RColorBrewer)
+
 
 
 weddingGuests <- st_read("data/guests.geojson")
 
 input = list(
   guestTypeSelect = c("attended_wedding", "in_wedding_party"),
-  guestStateSelect = c("Michigan", "Pennsylvania")
+  guestStateSelect = c("Michigan", "Pennsylvania"),
+  guestGenerationSelect = c("Millennial", "Baby Boomer")
 )
+
+
+weddingGuests %>%
+  filter(generation %in% input$guestGenerationSelect) %>%
+  group_by(generation) %>%
+  arrange(generation) %>%
+  summarize(n = n()) %>%
+  rename("num_guests" = n)
+
+
+
+
+
+
+
+
+
+weddingGuests %>%
+  # filter(state %in% input$guestStateSelect) %>%
+  # select(state) %>%
+  # group_by(state, generation) %>%
+  group_by(state) %>%
+  arrange(state) %>%
+  summarize(n = n()) %>%
+  rename("num_guests" = n)
+
+
+
+dhat <- weddingGuests %>%
+  filter(state %in% input$guestStateSelect) %>%
+  filter()
+  # select(state) %>%
+  group_by(state) %>%
+  arrange(state) %>%
+  summarize(n = n()) %>%
+  rename("num_guests" = n)
+
+
+print(dhat$state)
+
+# this works!!
+ggplot(
+  data = dhat,
+  mapping = aes(
+    x = state,
+    y = num_guests,
+    fill = state
+  )
+) +
+labs(
+  x = "State of Residence",
+  y = "Number of Guests",
+  fill = "State of Residence"
+) +
+geom_bar(
+  alpha = 0.5,
+  stat = "identity",
+  position = position_dodge()
+) +
+scale_fill_brewer(palette = "Set1") + 
+ggtitle(paste(str_interp("Something something title"))) +
+theme(plot.title = element_text(hjust = 0.5))
+
+
+  # ggplot(
+  #   dhat,
+  #   mapping = aes(
+  #     # fill = generation,
+  #     x = state,
+  #     y = num_guests
+  #   ) +
+  #     geom_bar(
+  #       position = "dodge",
+  #       stat = "identity"
+  #     )
+  # )
 
 
 weddingGuestsInputs <- reactive({
@@ -135,16 +214,16 @@ dhat <- weddingGuests %>%
   summarize(n = n()) %>%
   rename("num_guests" = n) %>%
   ggplot(
-  dhat,
-  mapping = aes(
-    # fill = generation,
-    x = state,
-    y = num_guests
-  ) +
-  geom_bar(
-    position = "dodge",
-    stat = "identity"
-  )
+    dhat,
+    mapping = aes(
+      # fill = generation,
+      x = state,
+      y = num_guests
+    ) +
+    geom_bar(
+      position = "dodge",
+      stat = "identity"
+    )
 )
 
 
