@@ -21,13 +21,12 @@ library(ggplot2)
 library(DT)
 
 # weddingGuests <- st_read("https://raw.githubusercontent.com/mgermaine93/wedding-guest-map/master/constants/guests.geojson")
+# states <- st_read("https://raw.githubusercontent.com/mgermaine93/wedding-guest-map/master/constants/us-states.geojson")
+# states <- geojsonio::geojson_read("https://rstudio.github.io/leaflet/json/us-states.geojson", what = "sp")
+
 
 weddingGuests <- st_read("data/guests.geojson")
 states <- st_read("data/us-states.geojson")
-
-# I wonder if I can load in my static file of states?
-# states <- geojsonio::geojson_read("https://rstudio.github.io/leaflet/json/us-states.geojson", what = "sp")
-# class(states)
 
 # ui part begins here
 ui <- dashboardPage(
@@ -69,7 +68,7 @@ ui <- dashboardPage(
       # it corresponds with the tabItem that has the same tabName value as this one.
       menuItem(
         "Wedding Guests by Generational Age", 
-        tabName = "plotByAge",
+        tabName = "plotByGeneration",
         icon = icon("chart-column")
       ),
       # the third "page" of the app, seen in the upper left of the app
@@ -197,6 +196,33 @@ ui <- dashboardPage(
         #     ),
         #   )
         # )
+      ),
+      
+      tabItem(
+        
+        tabName = "plotByGeneration",
+        
+        # first row is the name of the page
+        h2("Guests by Generation"),
+        
+        # second row is the actual plot
+        fluidRow(
+          box(
+            width = 12,
+            plotlyOutput("guestsByGeneration")
+          )
+        )
+        
+        # # fourth row is the data table corresponding to the plot
+        # fluidRow(
+        #   box(
+        #     width = 12,
+        #     # data table stuff
+        #     DT::dataTableOutput(
+        #       outputId = "licenseTable",
+        #     ),
+        #   )
+        # )
       )
       
     )
@@ -210,9 +236,7 @@ server <- function(input, output) {
   weddingGuestsInputs <- reactive({
     
     weddingGuests <- weddingGuests
-    
-    # new stuff here
-    
+
     # https://stackoverflow.com/questions/49851381/empty-a-data-frame-keep-colnames-headers-only
     guests_to_be_plotted <- weddingGuests[FALSE, ]
     
@@ -303,11 +327,9 @@ server <- function(input, output) {
     
     # https://stackoverflow.com/questions/13967063/remove-duplicated-rows
     noDuplicateGuests <- guests_to_be_plotted[!duplicated(guests_to_be_plotted), ]
-    
-    # end of new stuff
-    
     return(noDuplicateGuests)
-    
+    # print(guests_to_be_plotted)
+    # return(guests_to_be_plotted)
   })
   
   # might adjust this later...
@@ -325,6 +347,7 @@ server <- function(input, output) {
     
     # this is important!  otherwise, some kind of circuitous loading happens for some reason.
     weddingGuests <- weddingGuestsInputs()
+    # noDuplicateGuests <- weddingGuests[!duplicated(weddingGuests), ]
     
     leaflet(data = weddingGuests) %>%
       addProviderTiles(providers$OpenTopoMap, group = "OpenTopoMap", options = providerTileOptions(noWrap = TRUE)) %>%
@@ -410,52 +433,61 @@ server <- function(input, output) {
           direction = "auto"
         )
       ) %>%
+      # https://rstudio.github.io/leaflet/legends.html
       addLegend(
+        title = "Number of Guests",
         pal = pal, 
         values = ~density, 
         opacity = 0.7, 
-        title = NULL,
         position = "bottomright"
       )
   })
   
   
-  dhat <- reactive({
-    result = weddingGuests %>%
+  guestsByState <- reactive({
+    result = weddingGuestsInputs() %>%
       filter(state %in% input$guestStateSelect) %>%
-      # select(state) %>%
-      # group_by(state, generation) %>%
+      group_by(state) %>%
       arrange(state) %>%
       summarize(n = n()) %>%
       rename("num_guests" = n)
-    print("---dhat"); return(result);
+    print("---guestStateSelect"); return(result);
+  })
+
+  
+  guestsByGeneration <- reactive({
+    result = weddingGuestsInputs() %>%
+      filter(generation %in% input$guestGenerationSelect) %>%
+      group_by(generation) %>%
+      arrange(generation) %>%
+      summarize(n = n()) %>%
+      rename("num_guests" = n)
+    print("---guestGenerationSelect"); return(result);
   })
   
   
-  # not working quite right...
   output$guestsByState <- renderPlotly({
     
     ggplotly(
-      dhat() %>%
+      guestsByState() %>%
         ggplot(
           mapping = aes(
-            x = state, 
-            y = num_guests, 
-            # color = state,
+            x = state,
+            y = num_guests,
+            fill = state
           )
         ) +
         labs(
-          x = "Guests' State of Residence",
+          x = "State of Residence",
           y = "Number of Guests",
-          color = "Guest"
+          fill = "State of Residence"
         ) +
         geom_bar(
           alpha = 0.5,
           stat = "identity",
-          # http://www.sthda.com/english/wiki/ggplot2-barplots-quick-start-guide-r-software-and-data-visualization#create-barplots-1
           position = position_dodge()
-        ) + 
-        scale_fill_brewer(palette = "Set1") + 
+        ) +
+        scale_fill_brewer(palette = "Set1") +
         ggtitle(paste(str_interp("Wedding Guests by State of Residence at the Time of the Wedding"))) +
         theme(plot.title = element_text(hjust = 0.5))
     )
@@ -464,31 +496,39 @@ server <- function(input, output) {
   
   
   
+  output$guestsByGeneration <- renderPlotly({
+    
+    ggplotly(
+      guestsByGeneration() %>%
+        ggplot(
+          mapping = aes(
+            x = generation,
+            y = num_guests,
+            fill = generation
+          )
+        ) +
+        labs(
+          x = "Age Generation of Guests",
+          y = "Number of Guests",
+          fill = "Generational Age of Guests"
+        ) +
+        geom_bar(
+          alpha = 0.5,
+          stat = "identity",
+          position = position_dodge()
+        ) +
+        scale_fill_brewer(palette = "Set1") +
+        ggtitle(paste(str_interp("Wedding Guests by Generational Age at the Time of the Wedding"))) +
+        theme(plot.title = element_text(hjust = 0.5))
+    )
+    
+  })
   
   
-  
-  
-  
-  # # # types of guests
-  # # if (length(input$guestStateSelect > 1)) {
-  # #   weddingGuests <- subset(weddingGuests, state %in% input$guestStateSelect)
-  # # } else {
-  # #   weddingGuests <- subset(weddingGuests, state == input$guestStateSelect)
-  # # }
-  # 
-  # # types of guests
-  # if (length(input$guestTypeSelect > 1)) {
-  #   weddingGuests <- subset(weddingGuests, state %in% input$guestStateSelect)
-  #   
-  #   # print(class(weddingGuests))
-  #   # weddingGuests <- subset(weddingGuests, summary(groups) %in% input$guestTypeSelect)
-  # } else {
-  #   weddingGuests <- subset(weddingGuests, groups == input$guestStateSelect)
-  # }
-  
-  
-  
-  
+}
+
+shinyApp(ui = ui, server = server)
+
   # # not entirely sure why this isn't working...?
   # observe({
   #   weddingGuests <- weddingGuestsInputs()
@@ -505,6 +545,3 @@ server <- function(input, output) {
   #     )
   # })
   
-}
-
-shinyApp(ui = ui, server = server)
