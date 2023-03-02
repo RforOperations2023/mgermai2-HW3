@@ -519,14 +519,33 @@ server <- function(input, output) {
     leaflet() %>%
       addProviderTiles(
         providers$OpenStreetMap.Mapnik, 
-        group = "OpenStreetMap.Mapnik", 
+        group = "Open Street Map", 
         options = providerTileOptions(noWrap = TRUE)
       ) %>%
+      addProviderTiles(
+        providers$OpenTopoMap, 
+        group = "Open Topo Map", 
+        options = providerTileOptions(noWrap = TRUE)
+      ) %>%
+      # addProviderTiles(
+      #   providers$Stadia.AlidadeSmoothDark, 
+      #   group = "Smooth Dark", 
+      #   options = providerTileOptions(noWrap = TRUE)
+      # ) %>%
       setView(
         lng = -98.583,
         lat = 39.833,
         zoom = 5
-      ) 
+      ) %>%
+      addLayersControl(
+        baseGroups = c(
+          "Open Street Map", 
+          "Open Topo Map", 
+          "Smooth Dark"
+        ),
+        # overlayGroups = c("Quakes", "Outline"),
+        options = layersControlOptions(collapsed = TRUE)
+      )
     
   })
   
@@ -566,13 +585,32 @@ server <- function(input, output) {
       setView(-96, 37.8, 4) %>%
       addProviderTiles(
         providers$OpenStreetMap.Mapnik, 
-        group = "OpenStreetMap.Mapnik", 
+        group = "Open Street Map", 
         options = providerTileOptions(noWrap = TRUE)
       ) %>%
+      addProviderTiles(
+        providers$OpenTopoMap, 
+        group = "Open Topo Map", 
+        options = providerTileOptions(noWrap = TRUE)
+      ) %>%
+      # addProviderTiles(
+      #   providers$Stadia.AlidadeSmoothDark, 
+      #   group = "Smooth Dark", 
+      #   options = providerTileOptions(noWrap = TRUE)
+      # ) %>%
       setView(
         lng = -98.583,
         lat = 39.833,
         zoom = 5
+      ) %>%
+      addLayersControl(
+        baseGroups = c(
+          "Open Street Map", 
+          "Open Topo Map", 
+          "Smooth Dark"
+        ),
+        # overlayGroups = c("Quakes", "Outline"),
+        options = layersControlOptions(collapsed = TRUE)
       ) %>%
       addPolygons(
         fillColor = ~pal(density),
