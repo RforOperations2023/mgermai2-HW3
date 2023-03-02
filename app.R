@@ -1,3 +1,10 @@
+# -------------------------------------------------#
+# Matthew Germaine                                 #
+# R Shiny for Operations Management                #
+# HW #3 / Final Project                            #
+# Basic Shiny App                                  #
+# -------------------------------------------------#
+
 library(shiny)
 library(leaflet)
 library(dplyr)
@@ -27,13 +34,13 @@ library(bslib)
 
 
 # To-Do:
-#   * Add datatables
-#   * Add download handler
-#   * Add observer(s) to main cluster map
+#   * Add datatables == DONE (sort-of)
+#   * Add download handler == DONE
+#   * Add observer(s) to main cluster map == DONE
 #   * Add text to the ABOUT page 
 #   * Add in a few more map tiles to each map 
-#   * Add comments to code
-#   * Fix bar plots (they are no longer working for some reason)
+#   * Add comments to code == DONE
+#   * Fix bar plots (they are no longer working as expected for some reason)
 #   * (If time) Add in functionality that factors in guest type for the two bar charts (the fill in this case would be guest type)
 #   * Maybe add more content to the popUpContent of the markers?
 
@@ -118,9 +125,9 @@ ui <- dashboardPage(
           "Couple" = "is_couple",
           "Invitees" = "invited",
           "Attendees" = "attended_wedding",
-          "Bride's Side" = "brides_side",
-          "Groom's Side" = "grooms_side",
-          "Couple's Side" = "couples_side",
+          "Invitees from the Bride's Side" = "brides_side",
+          "Invitees from the Groom's Side" = "grooms_side",
+          "Invitees from the Couple's Side" = "couples_side",
           "Wedding Party" = "wedding_party",
           "Bride's Family" = "brides_family",
           "Groom's Family" = "grooms_family",
@@ -175,8 +182,18 @@ ui <- dashboardPage(
           "Pennsylvania"
         ),
         multiple = TRUE
+      ),
+      
+      # enables the user to download the data
+      # https://shiny.rstudio.com/reference/shiny/1.0.5/downloadbutton
+      downloadButton(
+        outputId = "downloadData",
+        label = "Download Data Table",
+        class = "download-button"
       )
+      
     )
+    
   ),
   
   #############################################################
@@ -203,7 +220,16 @@ ui <- dashboardPage(
             )
           )
         )
-        # need a DT here
+        # # need a DT here
+        # fluidRow(
+        #   box(
+        #     width = 12,
+        #     # data table stuff
+        #     DT::dataTableOutput(
+        #       outputId = "leafletClustersDataTable",
+        #     ),
+        #   )
+        # )
       ),
       
       # this tab holds the static heatmap... it's important to refer to the heatmap as "leafletHeatmap" everywhere else in the app
@@ -222,7 +248,16 @@ ui <- dashboardPage(
             )
           )
         )
-        # need a DT here
+        # # need a DT here
+        # fluidRow(
+        #   box(
+        #     width = 12,
+        #     # data table stuff
+        #     DT::dataTableOutput(
+        #       outputId = "leafletHeatmapDataTable",
+        #     ),
+        #   )
+        # )
       ),
       
       # this tab contains the barplot the dynamically plots guests by their state of residence...
@@ -236,20 +271,17 @@ ui <- dashboardPage(
             # ... and here's the bar plot itself
             plotlyOutput("guestsByState")
           )
-        )
-        
+        ),
         # need a DT here
-        
-        # # fourth row is the data table corresponding to the plot
-        # fluidRow(
-        #   box(
-        #     width = 12,
-        #     # data table stuff
-        #     DT::dataTableOutput(
-        #       outputId = "licenseTable",
-        #     ),
-        #   )
-        # )
+        fluidRow(
+          box(
+            width = 12,
+            # data table stuff
+            DT::dataTableOutput(
+              outputId = "guestsByStateDataTable",
+            ),
+          )
+        )
       ),
       
       # this tab contains the barplot the dynamically plots guests by their generational age...
@@ -263,6 +295,16 @@ ui <- dashboardPage(
             width = 12,
             # ... and here's the bar plot iself
             plotlyOutput("guestsByGeneration")
+          )
+        ),
+        # need a DT here
+        fluidRow(
+          box(
+            width = 12,
+            # data table stuff
+            DT::dataTableOutput(
+              outputId = "guestsByGenerationDataTable",
+            ),
           )
         )
       ),
@@ -312,13 +354,29 @@ ui <- dashboardPage(
 
 server <- function(input, output) {
   
+  # okay, so this reactive function is a bit crazy, but it works!
+  # since a single individual can belong to many different types of "guest" (wedding party, couple, etc.),
+  # this results in the same marker being plotted multiple times when their groups are plotted.
+  # I didn't want this feature because it misrepresents the quantities of guests
+  # (I wanted each guest to be plotted once and only once regardless of how many of their groups were selected 
+  # to be plotted, and then removed only when ALL of the groups to which they belong are unplotted/unselected 
+  # from the map), and this function takes care of that.
+  
+  # this can almost certainly be improved either on its own or by editing the raw data somehow, but the focus here
+  # was simply to make it work, then (perhaps someday) make it better.
   weddingGuestsInputs <- reactive({
     
+    # load in the guest data
+    # doing this in this way because weird things occur if I don't...
     weddingGuests <- weddingGuests
-
+    
+    # this creates a NEW variable that is DEVOID of all data,
+    # but keeps the structure and column names of the data set, which is important.
     # https://stackoverflow.com/questions/49851381/empty-a-data-frame-keep-colnames-headers-only
     guests_to_be_plotted <- weddingGuests[FALSE, ]
     
+    # okay, so each one of the next several lines creates a df (?) for each wedding guest "type" and the individuals
+    # that fall into that type
     everyone <- weddingGuests
     couple <- subset(weddingGuests, is_bride == TRUE | is_groom == TRUE)
     invited <- subset(weddingGuests, invited == TRUE)
@@ -342,7 +400,10 @@ server <- function(input, output) {
     # isOfficiant <- subset(weddingGuests, is_officiant == TRUE)
     isVendor <- subset(weddingGuests, is_vendor == TRUE | is_officiant == TRUE)
     
-    
+    # okay, so now what we do is process what the user selected...
+    # each one of the next several lines checks to see if a certain wedding guest "type" is one
+    # of the types that the user selected...
+    # if it is, then it simply adds/concatenates that group onto the empty df defined above
     if ("everyone" %in% input$guestTypeSelect) {
       guests_to_be_plotted <- rbind(guests_to_be_plotted, everyone)
     }
@@ -404,28 +465,63 @@ server <- function(input, output) {
       guests_to_be_plotted <- rbind(guests_to_be_plotted, isVendor)
     }
     
+    # since we now have a sizeable DF that more than likely contains multiple redundant data points,
+    # we simply remove duplicate data points
     # https://stackoverflow.com/questions/13967063/remove-duplicated-rows
     noDuplicateGuests <- guests_to_be_plotted[!duplicated(guests_to_be_plotted), ]
+    
+    # ... and then finally return the df that represents the guests that belong to all of the
+    # wedding guest types that the user selected, but without duplicates.
     return(noDuplicateGuests)
-    # print(guests_to_be_plotted)
-    # return(guests_to_be_plotted)
+    
   })
   
+  ######################################
+  # heatmap-related constants are here #
+  ######################################
+  
   # might adjust this later...
+  # these are the values that mark the color cutoffs for guest density
   bins <- c(0, 1, 2, 3, 5, 10, 20, 50, 100)
   # bins <- c(0, 10, 20, 50, 100, 200, 500, 1000, Inf)
-  pal <- colorBin("YlOrRd", domain = states$density, bins = bins)
-  labels <- sprintf(
-    "<strong>%s</strong><br/>%g guests", states$name, states$density
-  ) %>% 
-  lapply(htmltools::HTML)
   
+  # this represents the actual colors for the heatmap and its legend,
+  # which correspond to the "bins" defined above
+  # MAKE SURE TO UPDATE THE COLOR PALETTE
+  pal <- colorBin(
+    "YlOrRd", 
+    # this means that the color will correspond with the density of guests that came from each state
+    domain = states$density, 
+    bins = bins
+  )
+  
+  # this represents the label that dynamically appears when the user hovers over each state in the heatmap
+  # *** might try to incorporate "stringr" instead... we'll see...
+  labels <- sprintf(
+    "<strong>%s</strong><br/>%g guests", 
+    states$name, 
+    states$density
+  ) %>% 
+    lapply(htmltools::HTML)
+  
+  
+  ######################################
+  # actual maps/plots are created here #
+  ######################################
+  
+  ### CLUSTER MAP IS HERE ###
   
   # load in wedding guest filtered data
   output$leafletClusters <- renderLeaflet({
     
+    # okay, so here's the "base" map.
+    # this will not update unless the user selects a different tile to view
     leaflet() %>%
-      addProviderTiles(providers$OpenStreetMap.Mapnik, group = "OpenStreetMap.Mapnik", options = providerTileOptions(noWrap = TRUE)) %>%
+      addProviderTiles(
+        providers$OpenStreetMap.Mapnik, 
+        group = "OpenStreetMap.Mapnik", 
+        options = providerTileOptions(noWrap = TRUE)
+      ) %>%
       setView(
         lng = -98.583,
         lat = 39.833,
@@ -433,41 +529,52 @@ server <- function(input, output) {
       ) 
     
   })
-  ################################################
-  # # not entirely sure why this isn't working...?
-  ################################################
+  
+  # okay, so this ensures that only the clusters/data points update on the cluster map above,
+  # and NOT the map itself
   observe({
+    # this uses the crazy function (defined above) to create the dataset that will be plotted
     weddingGuests <- weddingGuestsInputs()
-    # leafletClusters" refers to the output map created above
+    # leafletClusters" refers to the OUTPUT MAP created above
     leafletProxy("leafletClusters", data = weddingGuests) %>%
       # clearGeoJSON("weddingGuests") %>%
       clearGroup(group = "weddingGuests") %>%
       clearMarkerClusters() %>%
       clearMarkers() %>%
+      # may have to explore this more?
       addMarkers(
         popup = ~as.character(popupContent),
         clusterOptions = markerClusterOptions()
       )
   })
   
-  # HEATMAP
+  
+  # # outputs the data table corresponding to the first plot
+  # output$leafletClusterDataTable = DT::renderDataTable({
+  #   DT::datatable(data = leafletClusters())
+  # })
+  
+  ### HEATMAP IS HERE ###
+  
+  # it is static for now, might change later
   # https://rstudio.github.io/leaflet/choropleths.html
   # load in wedding guest filtered data
   output$leafletHeatmap <- renderLeaflet({
     
-    # # this is important!  otherwise, some kind of circuitous loading happens for some reason.
-    # weddingGuests <- weddingGuestsInputs()
-    
+    # load in the states data
     leaflet(states) %>%
       setView(-96, 37.8, 4) %>%
-      addProviderTiles(providers$OpenStreetMap.Mapnik, group = "OpenStreetMap.Mapnik", options = providerTileOptions(noWrap = TRUE)) %>%
+      addProviderTiles(
+        providers$OpenStreetMap.Mapnik, 
+        group = "OpenStreetMap.Mapnik", 
+        options = providerTileOptions(noWrap = TRUE)
+      ) %>%
       setView(
         lng = -98.583,
         lat = 39.833,
         zoom = 5
       ) %>%
       addPolygons(
-        # this will need to change so it reflects the wedding data densities
         fillColor = ~pal(density),
         weight = 2,
         opacity = 1,
@@ -482,7 +589,10 @@ server <- function(input, output) {
           bringToFront = TRUE),
         label = labels,
         labelOptions = labelOptions(
-          style = list("font-weight" = "normal", padding = "3px 8px"),
+          style = list(
+            "font-weight" = "normal", 
+            padding = "3px 8px"
+          ),
           textsize = "15px",
           direction = "auto"
         )
@@ -497,7 +607,15 @@ server <- function(input, output) {
       )
   })
   
+  # # outputs the data table corresponding to the first plot
+  # output$leatletHeatmapDataTable = DT::renderDataTable({
+  #   DT::datatable(data = states)
+  # })
   
+  
+  ### BAR PLOT FOR STATE OF RESIDENCE IS HERE ###
+  
+  # this filters down the data based on what the user input for state of residence
   guestsByState <- reactive({
     result = weddingGuestsInputs() %>%
       filter(state %in% input$guestStateSelect) %>%
@@ -507,19 +625,8 @@ server <- function(input, output) {
       rename("num_guests" = n)
     print("---guestStateSelect"); return(result);
   })
-
   
-  guestsByGeneration <- reactive({
-    result = weddingGuestsInputs() %>%
-      filter(generation %in% input$guestGenerationSelect) %>%
-      group_by(generation) %>%
-      arrange(generation) %>%
-      summarize(n = n()) %>%
-      rename("num_guests" = n)
-    print("---guestGenerationSelect"); return(result);
-  })
-  
-  
+  # this creates the actual barplot for states of residence
   output$guestsByState <- renderPlotly({
     
     ggplotly(
@@ -528,9 +635,11 @@ server <- function(input, output) {
           mapping = aes(
             x = state,
             y = num_guests,
+            # the fill color of the bars is determined by the state of residence
             fill = state
           )
         ) +
+        # labels for the axes as well as the legend
         labs(
           x = "State of Residence",
           y = "Number of Guests",
@@ -548,7 +657,26 @@ server <- function(input, output) {
     
   })
   
+  # outputs the data table corresponding to the first plot
+  output$guestsByStateDataTable = DT::renderDataTable({
+    DT::datatable(data = guestsByState())
+  })
   
+  
+  ### BAR PLOT BY GENERATIONAL AGE IS HERE ###
+  
+  # this filters down the data based on what the user input for generational ages
+  guestsByGeneration <- reactive({
+    result = weddingGuestsInputs() %>%
+      filter(generation %in% input$guestGenerationSelect) %>%
+      group_by(generation) %>%
+      arrange(generation) %>%
+      summarize(n = n()) %>%
+      rename("num_guests" = n)
+    print("---guestGenerationSelect"); return(result);
+  })
+  
+  # this creates the actual barplot for generational ages
   output$guestsByGeneration <- renderPlotly({
     
     ggplotly(
@@ -557,9 +685,11 @@ server <- function(input, output) {
           mapping = aes(
             x = generation,
             y = num_guests,
+            # the fill color of the bars is determined by the generational age categories
             fill = generation
           )
         ) +
+        # labels for the axes and the legend
         labs(
           x = "Age Generation of Guests",
           y = "Number of Guests",
@@ -577,12 +707,31 @@ server <- function(input, output) {
     
   })
   
+  # outputs the data table corresponding to the first plot
+  output$guestsByGenerationDataTable = DT::renderDataTable({
+    DT::datatable(data = guestsByGeneration())
+  })
+  
+  
+  # enables the user to download the datatable created above.
+  output$downloadData <- downloadHandler(
+    filename = function() {
+      paste('germaine-eyre-wedding-data-', Sys.Date(), '.csv', sep='')
+    },
+    content = function(con) {
+      write.csv(weddingGuestsInputs(), con)
+    }
+  )
+  
+  
+  
+  # this is the text that displays in the "about" page
+  # https://stackoverflow.com/questions/23233497/outputting-multiple-lines-of-text-with-rendertext-in-r-shiny
   output$aboutText <- renderText(
-    "This text here will include details about the project and perhaps about our wedding..."
+    "Something something"
   )
   
   
 }
 
 shinyApp(ui = ui, server = server)
-  
