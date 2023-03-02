@@ -35,13 +35,20 @@ library(bslib)
 #   * Add comments to code
 #   * Fix bar plots (they are no longer working for some reason)
 #   * (If time) Add in functionality that factors in guest type for the two bar charts (the fill in this case would be guest type)
- 
+#   * Maybe add more content to the popUpContent of the markers?
+
+# load in the guests data
 weddingGuests <- st_read("data/guests.geojson")
+
+# load in the states data
 states <- st_read("data/us-states.geojson")
 
-# ui part begins here
+#######################
+# ui part begins here #
+#######################
 ui <- dashboardPage(
   
+  # sets the "theme" of the page
   skin = "black",
   
   # sets the title of the app
@@ -50,43 +57,63 @@ ui <- dashboardPage(
     titleWidth = 400
   ),
   
-  # user input part
+  ############################
+  # sidebar part begins here #
+  ############################
+  
   dashboardSidebar(
     
     width = 400,
     
     sidebarMenu(
+      
       id = "tabs",
+      
+      # this links to the "main" clusters map that dynamically maps different types of guests
       menuItem(
         "Map of Guests (Clusters)", 
         tabName = "leafletClusters",
         icon = icon("map")
       ),
+      
+      # this links to the heatmap that illustrates how many guests came from each state
       menuItem(
         "Map of Guests (Heatmap)", 
         tabName = "leafletHeatmap",
         icon = icon("fire")
       ),
+      
+      # this links to the bar plot that dynamically plots guests by their generational age
       menuItem(
         "Wedding Guests by Generational Age", 
-        tabName = "plotByGeneration",
+        tabName = "guestsByGeneration",
         icon = icon("person-cane")
       ),
+      
+      # this links to the bar plot that dynamically plots guests by their state of residence at the time of the wedding
       menuItem(
         "Wedding Guests by State", 
-        tabName = "plotByState",
+        tabName = "guestsByState",
         icon = icon("flag-usa")
       ),
+      
+      # this links to the page that describes the project :)
       menuItem(
         "About this Project", 
         tabName = "about",
         icon = icon("question")
       ),
       
+      ###########################
+      # user inputs begins here #
+      ###########################
+      
+      # enables the user to select multiple groups of guests
       selectizeInput(
         inputId = "guestTypeSelect",
         label = "Guest Type",
         choices = c(
+          # okay, so the left value is what the user sees, but the right value is how it is in the data itself
           "Everyone" = "everyone",
           "Couple" = "is_couple",
           "Invitees" = "invited",
@@ -113,22 +140,34 @@ ui <- dashboardPage(
           "wedding_party"
         ),
         multiple = TRUE
-        
       ),
-      # as defined here:  https://caregiversofamerica.com/2022-generation-names-explained/
+      
+      # enables the user to select multiple generational ages
+      # generations are defined here:  https://caregiversofamerica.com/2022-generation-names-explained/
       checkboxGroupInput(
         inputId = "guestGenerationSelect",
         label = "Guest Generation",
-        # might rename these labels later...
-        choices = c(unique(sort(weddingGuests$generation))),
+        # okay, so the left value is what the user sees, but the right value is how it is in the data itself
+        choices = c(
+          "Baby Boomer (born 1946-1964)" = "Baby Boomer",
+          "Generation Alpha (born 2013-Present)" = "Generation Alpha",
+          "Generation X (born 1965-1979)" = "Generation X",
+          "Generation Z (born 1995-2012)" = "Generation Z",
+          "Millennial (born 1980-1994)" = "Millennial",
+          "N/A" = "N/A",
+          "Silent Generation (born 1925-1945)" = "Silent"
+        ),
         selected = c(
           "Millennial",
           "Baby Boomer"
         )
       ),
+      
+      # enables the user to select multiple states of residence
       selectizeInput(
         inputId = "guestStateSelect",
         label = "Guest State",
+        # this specific part simply pulls out all of the unique options that exist for state of residence in the data
         choices = unique(sort(weddingGuests$state)),
         selected = c(
           "Michigan",
@@ -140,17 +179,21 @@ ui <- dashboardPage(
     )
   ),
   
-  # this is the part that actually holds the plotted data
+  #############################################################
+  # this is the part that actually "holds" the maps and plots #
+  #############################################################
+  
   dashboardBody(
     
     tabItems(
       
+      # this tab holds the main "cluster" map... it's important to refer to th cluster map as "leafletClusters" everywhere else in the app
       tabItem(
-        
         tabName = "leafletClusters",
         fluidRow(
           box(
             width = 12,
+            # ... and here's the cluster map itself
             leafletOutput(
               "leafletClusters",
               width = "100%",
@@ -160,14 +203,16 @@ ui <- dashboardPage(
             )
           )
         )
+        # need a DT here
       ),
       
+      # this tab holds the static heatmap... it's important to refer to the heatmap as "leafletHeatmap" everywhere else in the app
       tabItem(
-        
         tabName = "leafletHeatmap",
         fluidRow(
           box(
             width = 12,
+            # ... and here's the heatmap itself
             leafletOutput(
               "leafletHeatmap",
               width = "100%",
@@ -177,22 +222,23 @@ ui <- dashboardPage(
             )
           )
         )
+        # need a DT here
       ),
       
+      # this tab contains the barplot the dynamically plots guests by their state of residence...
+      # it's important to refer to the bar plot as "guestsByState" everywhere else in the app
       tabItem(
-        
-        tabName = "plotByState",
-        
-        # first row is the name of the page
+        tabName = "guestsByState",
         h2("Guests by State"),
-        
-        # second row is the actual plot
         fluidRow(
           box(
             width = 12,
+            # ... and here's the bar plot itself
             plotlyOutput("guestsByState")
           )
         )
+        
+        # need a DT here
         
         # # fourth row is the data table corresponding to the plot
         # fluidRow(
@@ -206,29 +252,25 @@ ui <- dashboardPage(
         # )
       ),
       
+      # this tab contains the barplot the dynamically plots guests by their generational age...
+      # it's important to refer to the bar plot as "guestsByGeneration" everywhere else in the app
       tabItem(
-        
-        tabName = "plotByGeneration",
-        
-        # first row is the name of the page
+        tabName = "guestsByGeneration",
         h2("Guests by Generation"),
-        
         # second row is the actual plot
         fluidRow(
           box(
             width = 12,
+            # ... and here's the bar plot iself
             plotlyOutput("guestsByGeneration")
           )
         )
       ),
-        
+      
+      # this tab links to a description of the project
+      # it's static, but it's important to refer to it by "about" everywhere else in the app
       tabItem(
-        
         tabName = "about",
-        
-        # # first row is the name of the page
-        # h2("About this Project"),
-        
         # https://stackoverflow.com/questions/44279773/r-shiny-add-picture-to-box-in-fluid-row-with-text
         fluidRow(
           box(
@@ -238,11 +280,13 @@ ui <- dashboardPage(
             collapsible = F,
             width = 12,
             fluidRow(
+              # this is for the text
               column(
                 width = 6,
                 textOutput( "aboutText" )
               ),
               column(
+                # this is for the picture
                 width = 6,
                 align = "center",
                 img(
@@ -256,23 +300,15 @@ ui <- dashboardPage(
           )
         )
       )
-        
-        # # fourth row is the data table corresponding to the plot
-        # fluidRow(
-        #   box(
-        #     width = 12,
-        #     # data table stuff
-        #     DT::dataTableOutput(
-        #       outputId = "licenseTable",
-        #     ),
-        #   )
-        # )
-    
+      
     )
   )
 )
 
 
+###########################
+# server part begins here #
+###########################
 
 server <- function(input, output) {
   
@@ -388,23 +424,30 @@ server <- function(input, output) {
   # load in wedding guest filtered data
   output$leafletClusters <- renderLeaflet({
     
-    # this is important!  otherwise, some kind of circuitous loading happens for some reason.
-    weddingGuests <- weddingGuestsInputs()
-    # noDuplicateGuests <- weddingGuests[!duplicated(weddingGuests), ]
-    
-    leaflet(data = weddingGuests) %>%
+    leaflet() %>%
       addProviderTiles(providers$OpenStreetMap.Mapnik, group = "OpenStreetMap.Mapnik", options = providerTileOptions(noWrap = TRUE)) %>%
       setView(
         lng = -98.583,
         lat = 39.833,
         zoom = 5
-      ) %>%
+      ) 
+    
+  })
+  ################################################
+  # # not entirely sure why this isn't working...?
+  ################################################
+  observe({
+    weddingGuests <- weddingGuestsInputs()
+    # leafletClusters" refers to the output map created above
+    leafletProxy("leafletClusters", data = weddingGuests) %>%
+      # clearGeoJSON("weddingGuests") %>%
+      clearGroup(group = "weddingGuests") %>%
+      clearMarkerClusters() %>%
+      clearMarkers() %>%
       addMarkers(
-        weddingGuests$coords,
         popup = ~as.character(popupContent),
         clusterOptions = markerClusterOptions()
       )
-    
   })
   
   # HEATMAP
@@ -542,20 +585,4 @@ server <- function(input, output) {
 }
 
 shinyApp(ui = ui, server = server)
-
-  # # not entirely sure why this isn't working...?
-  # observe({
-  #   weddingGuests <- weddingGuestsInputs()
-  #   # data is guests
-  #   leafletProxy("leaflet", data = weddingGuests) %>%
-  #     # clearGeoJSON("weddingGuests") %>%
-  #     clearGroup(group = "weddingGuests") %>%
-  #     clearMarkerClusters() %>%
-  #     clearMarkers() %>%
-  #     addMarkers(
-  #       weddingGuests$coords,
-  #       popup = ~as.character(popupContent),
-  #       clusterOptions = markerClusterOptions()
-  #     )
-  # })
   
