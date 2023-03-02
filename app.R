@@ -37,12 +37,16 @@ library(bslib)
 #   * Add datatables == DONE (sort-of)
 #   * Add download handler == DONE
 #   * Add observer(s) to main cluster map == DONE
-#   * Add text to the ABOUT page 
-#   * Add in a few more map tiles to each map 
+#   * Add text to the ABOUT page == DONE
+#   * Add in a few more map tiles to each map == DONE
 #   * Add comments to code == DONE
-#   * Fix bar plots (they are no longer working as expected for some reason)
-#   * (If time) Add in functionality that factors in guest type for the two bar charts (the fill in this case would be guest type)
+#   * Fix bar plots (they are no longer working as expected for some reason) == DONE
+#   * (If time) Add in functionality that factors in guest type for the two bar charts (the fill in this case would be guest type) == N/A
 #   * Maybe add more content to the popUpContent of the markers?
+#   * Add observers to bar plots (if time)
+#   * change icons to represent men/women (if time)
+#   * update README
+#   * change colors for heatmap
 
 # load in the guests data
 weddingGuests <- st_read("data/guests.geojson")
@@ -220,16 +224,6 @@ ui <- dashboardPage(
             )
           )
         )
-        # # need a DT here
-        # fluidRow(
-        #   box(
-        #     width = 12,
-        #     # data table stuff
-        #     DT::dataTableOutput(
-        #       outputId = "leafletClustersDataTable",
-        #     ),
-        #   )
-        # )
       ),
       
       # this tab holds the static heatmap... it's important to refer to the heatmap as "leafletHeatmap" everywhere else in the app
@@ -248,16 +242,6 @@ ui <- dashboardPage(
             )
           )
         )
-        # # need a DT here
-        # fluidRow(
-        #   box(
-        #     width = 12,
-        #     # data table stuff
-        #     DT::dataTableOutput(
-        #       outputId = "leafletHeatmapDataTable",
-        #     ),
-        #   )
-        # )
       ),
       
       # this tab contains the barplot the dynamically plots guests by their state of residence...
@@ -313,10 +297,10 @@ ui <- dashboardPage(
       # it's static, but it's important to refer to it by "about" everywhere else in the app
       tabItem(
         tabName = "about",
+        h2("About this Project"),
         # https://stackoverflow.com/questions/44279773/r-shiny-add-picture-to-box-in-fluid-row-with-text
         fluidRow(
           box(
-            title = "Meredith and Matt's Wedding",
             status = "primary",
             solidHeader = F,
             collapsible = F,
@@ -325,7 +309,10 @@ ui <- dashboardPage(
               # this is for the text
               column(
                 width = 6,
-                textOutput( "aboutText" )
+                span(
+                  textOutput( "aboutText" ),
+                  style="font-size:22px; font-family:arial;"
+                )
               ),
               column(
                 # this is for the picture
@@ -522,14 +509,24 @@ server <- function(input, output) {
         group = "Open Street Map", 
         options = providerTileOptions(noWrap = TRUE)
       ) %>%
+      # addProviderTiles(
+      #   providers$OpenTopoMap, 
+      #   group = "Open Topo Map", 
+      #   options = providerTileOptions(noWrap = TRUE)
+      # ) %>%
       addProviderTiles(
-        providers$OpenTopoMap, 
-        group = "Open Topo Map", 
+        providers$Stamen.Terrain, 
+        group = "Stamen Terrain", 
+        options = providerTileOptions(noWrap = TRUE)
+      ) %>%
+      addProviderTiles(
+        providers$NASAGIBS.ViirsEarthAtNight2012,
+        group = "Earth at Night",
         options = providerTileOptions(noWrap = TRUE)
       ) %>%
       # addProviderTiles(
-      #   providers$Stadia.AlidadeSmoothDark, 
-      #   group = "Smooth Dark", 
+      #   providers$Stadia.AlidadeSmoothDark,
+      #   group = "Smooth Dark",
       #   options = providerTileOptions(noWrap = TRUE)
       # ) %>%
       setView(
@@ -540,10 +537,11 @@ server <- function(input, output) {
       addLayersControl(
         baseGroups = c(
           "Open Street Map", 
-          "Open Topo Map", 
-          "Smooth Dark"
+          # "Open Topo Map", 
+          "Stamen Terrain",
+          "Earth at Night"
+          # "Smooth Dark"
         ),
-        # overlayGroups = c("Quakes", "Outline"),
         options = layersControlOptions(collapsed = TRUE)
       )
     
@@ -566,12 +564,7 @@ server <- function(input, output) {
         clusterOptions = markerClusterOptions()
       )
   })
-  
-  
-  # # outputs the data table corresponding to the first plot
-  # output$leafletClusterDataTable = DT::renderDataTable({
-  #   DT::datatable(data = leafletClusters())
-  # })
+
   
   ### HEATMAP IS HERE ###
   
@@ -588,14 +581,24 @@ server <- function(input, output) {
         group = "Open Street Map", 
         options = providerTileOptions(noWrap = TRUE)
       ) %>%
+      # addProviderTiles(
+      #   providers$OpenTopoMap, 
+      #   group = "Open Topo Map", 
+      #   options = providerTileOptions(noWrap = TRUE)
+      # ) %>%
       addProviderTiles(
-        providers$OpenTopoMap, 
-        group = "Open Topo Map", 
+        providers$Stamen.Terrain, 
+        group = "Stamen Terrain", 
         options = providerTileOptions(noWrap = TRUE)
       ) %>%
       # addProviderTiles(
-      #   providers$Stadia.AlidadeSmoothDark, 
-      #   group = "Smooth Dark", 
+      #   providers$NASAGIBS.ViirsEarthAtNight2012,
+      #   group = "Earth at Night",
+      #   options = providerTileOptions(noWrap = TRUE)
+      # ) %>%
+      # addProviderTiles(
+      #   providers$Stadia.AlidadeSmoothDark,
+      #   group = "Smooth Dark",
       #   options = providerTileOptions(noWrap = TRUE)
       # ) %>%
       setView(
@@ -606,10 +609,11 @@ server <- function(input, output) {
       addLayersControl(
         baseGroups = c(
           "Open Street Map", 
-          "Open Topo Map", 
-          "Smooth Dark"
+          # "Open Topo Map", 
+          "Stamen Terrain"
+          # "Earth at Night",
+          # "Smooth Dark"
         ),
-        # overlayGroups = c("Quakes", "Outline"),
         options = layersControlOptions(collapsed = TRUE)
       ) %>%
       addPolygons(
@@ -618,12 +622,12 @@ server <- function(input, output) {
         opacity = 1,
         color = "white",
         dashArray = "3",
-        fillOpacity = 0.7,
+        fillOpacity = 0.5,
         highlightOptions = highlightOptions(
           weight = 5,
           color = "#666",
           dashArray = "",
-          fillOpacity = 0.7,
+          fillOpacity = 0.5,
           bringToFront = TRUE),
         label = labels,
         labelOptions = labelOptions(
@@ -645,17 +649,12 @@ server <- function(input, output) {
       )
   })
   
-  # # outputs the data table corresponding to the first plot
-  # output$leatletHeatmapDataTable = DT::renderDataTable({
-  #   DT::datatable(data = states)
-  # })
-  
   
   ### BAR PLOT FOR STATE OF RESIDENCE IS HERE ###
   
   # this filters down the data based on what the user input for state of residence
   guestsByState <- reactive({
-    result = weddingGuestsInputs() %>%
+    result = weddingGuests %>%
       filter(state %in% input$guestStateSelect) %>%
       group_by(state) %>%
       arrange(state) %>%
@@ -705,7 +704,7 @@ server <- function(input, output) {
   
   # this filters down the data based on what the user input for generational ages
   guestsByGeneration <- reactive({
-    result = weddingGuestsInputs() %>%
+    result = weddingGuests %>%
       filter(generation %in% input$guestGenerationSelect) %>%
       group_by(generation) %>%
       arrange(generation) %>%
@@ -765,9 +764,25 @@ server <- function(input, output) {
   
   # this is the text that displays in the "about" page
   # https://stackoverflow.com/questions/23233497/outputting-multiple-lines-of-text-with-rendertext-in-r-shiny
-  output$aboutText <- renderText(
-    "Something something"
-  )
+  output$aboutText <- renderText({
+    "
+      Hi, I'm Matt!  At the time of this writing, I'm a systems software engineer with Carnegie Mellon University's Department of Computing Services.
+      Outside of work, I've been spending the past few months learning my way around the Leaflet JavaScript library.  When I learned that Leaflet can
+      be integrated with R Shiny to create cool web apps, I decided to take a class on R Shiny at CMU.  When it came time to create the final project (this
+      app) for the class, I already had the perfect data set in mind:  my own wedding's guest list.
+      
+      In the process of addressing dozens of save-the-dates, invitations, and thank-you notes, I became fascinated with the sheer 
+      geographical diversity of our guest list.  Months after our wedding, I continued to feel a profound gratitude for the distances that many of our loved ones 
+      traveled so that they could celebrate with me and my wife, and I wanted to commemurate this in some way, which led to the creation of the app you are
+      viewing now.
+      
+      I'm still fairly new to R and R Shiny, so I imagine that I will make small adjustments to this app over time.  But in the meantime, I hope you enjoy it as it is for now.
+      
+      Warmly,
+      
+      ~Matt
+    "
+  })
   
   
 }
