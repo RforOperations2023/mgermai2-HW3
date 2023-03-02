@@ -1,3 +1,10 @@
+# -------------------------------------------------#
+# Matthew Germaine                                 #
+# R Shiny for Operations Management                #
+# HW #3 / Final Project                            #
+# Basic Shiny App                                  #
+# -------------------------------------------------#
+
 library(shiny)
 library(leaflet)
 library(dplyr)
@@ -27,13 +34,13 @@ library(bslib)
 
 
 # To-Do:
-#   * Add datatables
-#   * Add download handler
-#   * Add observer(s) to main cluster map
+#   * Add datatables == DONE (sort-of)
+#   * Add download handler == DONE
+#   * Add observer(s) to main cluster map == DONE
 #   * Add text to the ABOUT page 
 #   * Add in a few more map tiles to each map 
-#   * Add comments to code
-#   * Fix bar plots (they are no longer working for some reason)
+#   * Add comments to code == DONE
+#   * Fix bar plots (they are no longer working as expected for some reason)
 #   * (If time) Add in functionality that factors in guest type for the two bar charts (the fill in this case would be guest type)
 #   * Maybe add more content to the popUpContent of the markers?
 
@@ -118,9 +125,9 @@ ui <- dashboardPage(
           "Couple" = "is_couple",
           "Invitees" = "invited",
           "Attendees" = "attended_wedding",
-          "Bride's Side" = "brides_side",
-          "Groom's Side" = "grooms_side",
-          "Couple's Side" = "couples_side",
+          "Invitees from the Bride's Side" = "brides_side",
+          "Invitees from the Groom's Side" = "grooms_side",
+          "Invitees from the Couple's Side" = "couples_side",
           "Wedding Party" = "wedding_party",
           "Bride's Family" = "brides_family",
           "Groom's Family" = "grooms_family",
@@ -175,8 +182,18 @@ ui <- dashboardPage(
           "Pennsylvania"
         ),
         multiple = TRUE
+      ),
+      
+      # enables the user to download the data
+      # https://shiny.rstudio.com/reference/shiny/1.0.5/downloadbutton
+      downloadButton(
+        outputId = "downloadData",
+        label = "Download Data Table",
+        class = "download-button"
       )
+      
     )
+    
   ),
   
   #############################################################
@@ -203,7 +220,16 @@ ui <- dashboardPage(
             )
           )
         )
-        # need a DT here
+        # # need a DT here
+        # fluidRow(
+        #   box(
+        #     width = 12,
+        #     # data table stuff
+        #     DT::dataTableOutput(
+        #       outputId = "leafletClustersDataTable",
+        #     ),
+        #   )
+        # )
       ),
       
       # this tab holds the static heatmap... it's important to refer to the heatmap as "leafletHeatmap" everywhere else in the app
@@ -222,7 +248,16 @@ ui <- dashboardPage(
             )
           )
         )
-        # need a DT here
+        # # need a DT here
+        # fluidRow(
+        #   box(
+        #     width = 12,
+        #     # data table stuff
+        #     DT::dataTableOutput(
+        #       outputId = "leafletHeatmapDataTable",
+        #     ),
+        #   )
+        # )
       ),
       
       # this tab contains the barplot the dynamically plots guests by their state of residence...
@@ -236,20 +271,17 @@ ui <- dashboardPage(
             # ... and here's the bar plot itself
             plotlyOutput("guestsByState")
           )
-        )
-        
+        ),
         # need a DT here
-        
-        # # fourth row is the data table corresponding to the plot
-        # fluidRow(
-        #   box(
-        #     width = 12,
-        #     # data table stuff
-        #     DT::dataTableOutput(
-        #       outputId = "licenseTable",
-        #     ),
-        #   )
-        # )
+        fluidRow(
+          box(
+            width = 12,
+            # data table stuff
+            DT::dataTableOutput(
+              outputId = "guestsByStateDataTable",
+            ),
+          )
+        )
       ),
       
       # this tab contains the barplot the dynamically plots guests by their generational age...
@@ -263,6 +295,16 @@ ui <- dashboardPage(
             width = 12,
             # ... and here's the bar plot iself
             plotlyOutput("guestsByGeneration")
+          )
+        ),
+        # need a DT here
+        fluidRow(
+          box(
+            width = 12,
+            # data table stuff
+            DT::dataTableOutput(
+              outputId = "guestsByGenerationDataTable",
+            ),
           )
         )
       ),
@@ -456,9 +498,11 @@ server <- function(input, output) {
   # this represents the label that dynamically appears when the user hovers over each state in the heatmap
   # *** might try to incorporate "stringr" instead... we'll see...
   labels <- sprintf(
-    "<strong>%s</strong><br/>%g guests", states$name, states$density
+    "<strong>%s</strong><br/>%g guests", 
+    states$name, 
+    states$density
   ) %>% 
-    lapply(htmltools::HTML)
+  lapply(htmltools::HTML)
   
   
   ######################################
@@ -503,6 +547,12 @@ server <- function(input, output) {
         clusterOptions = markerClusterOptions()
       )
   })
+  
+  
+  # # outputs the data table corresponding to the first plot
+  # output$leafletClusterDataTable = DT::renderDataTable({
+  #   DT::datatable(data = leafletClusters())
+  # })
   
   ### HEATMAP IS HERE ###
   
@@ -557,6 +607,11 @@ server <- function(input, output) {
       )
   })
   
+  # # outputs the data table corresponding to the first plot
+  # output$leatletHeatmapDataTable = DT::renderDataTable({
+  #   DT::datatable(data = states)
+  # })
+  
   
   ### BAR PLOT FOR STATE OF RESIDENCE IS HERE ###
   
@@ -600,6 +655,11 @@ server <- function(input, output) {
         theme(plot.title = element_text(hjust = 0.5))
     )
     
+  })
+  
+  # outputs the data table corresponding to the first plot
+  output$guestsByStateDataTable = DT::renderDataTable({
+    DT::datatable(data = guestsByState())
   })
   
   
@@ -647,9 +707,28 @@ server <- function(input, output) {
     
   })
   
+  # outputs the data table corresponding to the first plot
+  output$guestsByGenerationDataTable = DT::renderDataTable({
+    DT::datatable(data = guestsByGeneration())
+  })
+  
+  
+  # enables the user to download the datatable created above.
+  output$downloadData <- downloadHandler(
+    filename = function() {
+      paste('germaine-eyre-wedding-data-', Sys.Date(), '.csv', sep='')
+    },
+    content = function(con) {
+      write.csv(weddingGuestsInputs(), con)
+    }
+  )
+      
+  
+  
   # this is the text that displays in the "about" page
+  # https://stackoverflow.com/questions/23233497/outputting-multiple-lines-of-text-with-rendertext-in-r-shiny
   output$aboutText <- renderText(
-    "This text here will include details about the project and perhaps about our wedding..."
+    "Something something"
   )
   
   
