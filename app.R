@@ -12,6 +12,7 @@ library(maps)
 library(jsonlite)
 library(st)
 library(shinydashboard)
+library(shinydashboardPlus)
 library(dashboardthemes)
 require(sf)
 require(leaflet)
@@ -45,8 +46,8 @@ library(bslib)
 #   * Maybe add more content to the popUpContent of the markers?
 #   * Add observers to bar plots (if time)
 #   * change icons to represent men/women (if time)
-#   * update README
-#   * change colors for heatmap
+#   * update README == DONE
+#   * change colors for heatmap == DONE
 
 # load in the guests data
 weddingGuests <- st_read("data/guests.geojson")
@@ -60,7 +61,7 @@ states <- st_read("data/us-states.geojson")
 ui <- dashboardPage(
   
   # sets the "theme" of the page
-  skin = "black",
+  skin = "midnight",
   
   # sets the title of the app
   dashboardHeader(
@@ -188,13 +189,21 @@ ui <- dashboardPage(
         multiple = TRUE
       ),
       
+      menuItem(
+        tabName = "downloadData",
+        downloadButton(
+          outputId = "downloadData",
+          label = "Download Data Table",
+          class = "download-button"
+        )
+      )
       # enables the user to download the data
       # https://shiny.rstudio.com/reference/shiny/1.0.5/downloadbutton
-      downloadButton(
-        outputId = "downloadData",
-        label = "Download Data Table",
-        class = "download-button"
-      )
+      # downloadButton(
+      #   outputId = "downloadData",
+      #   label = "Download Data Table",
+      #   class = "download-button"
+      # )
       
     )
     
@@ -212,7 +221,8 @@ ui <- dashboardPage(
       tabItem(
         tabName = "leafletClusters",
         fluidRow(
-          box(
+          shinydashboard::box(
+            id = "clusters",
             width = 12,
             # ... and here's the cluster map itself
             leafletOutput(
@@ -230,7 +240,8 @@ ui <- dashboardPage(
       tabItem(
         tabName = "leafletHeatmap",
         fluidRow(
-          box(
+          shinydashboard::box(
+            id = "heatmap",
             width = 12,
             # ... and here's the heatmap itself
             leafletOutput(
@@ -250,7 +261,8 @@ ui <- dashboardPage(
         tabName = "guestsByState",
         h2("Guests by State"),
         fluidRow(
-          box(
+          shinydashboard::box(
+            id = "guestsByState",
             width = 12,
             # ... and here's the bar plot itself
             plotlyOutput("guestsByState")
@@ -258,7 +270,8 @@ ui <- dashboardPage(
         ),
         # need a DT here
         fluidRow(
-          box(
+          shinydashboard::box(
+            id = "guestsByStateDT",
             width = 12,
             # data table stuff
             DT::dataTableOutput(
@@ -275,7 +288,8 @@ ui <- dashboardPage(
         h2("Guests by Generation"),
         # second row is the actual plot
         fluidRow(
-          box(
+          shinydashboard::box(
+            id = "guestsByGeneration",
             width = 12,
             # ... and here's the bar plot iself
             plotlyOutput("guestsByGeneration")
@@ -283,7 +297,8 @@ ui <- dashboardPage(
         ),
         # need a DT here
         fluidRow(
-          box(
+          shinydashboard::box(
+            id = "guestsByGenerationDT",
             width = 12,
             # data table stuff
             DT::dataTableOutput(
@@ -300,7 +315,7 @@ ui <- dashboardPage(
         h2("About this Project"),
         # https://stackoverflow.com/questions/44279773/r-shiny-add-picture-to-box-in-fluid-row-with-text
         fluidRow(
-          box(
+          shinydashboard::box(
             status = "primary",
             solidHeader = F,
             collapsible = F,
@@ -476,7 +491,7 @@ server <- function(input, output) {
   # which correspond to the "bins" defined above
   # MAKE SURE TO UPDATE THE COLOR PALETTE
   pal <- colorBin(
-    "YlOrRd", 
+    "Reds", 
     # this means that the color will correspond with the density of guests that came from each state
     domain = states$density, 
     bins = bins
@@ -564,7 +579,7 @@ server <- function(input, output) {
         clusterOptions = markerClusterOptions()
       )
   })
-
+  
   
   ### HEATMAP IS HERE ###
   
@@ -696,8 +711,10 @@ server <- function(input, output) {
   
   # outputs the data table corresponding to the first plot
   output$guestsByStateDataTable = DT::renderDataTable({
-    DT::datatable(data = guestsByState())
-  })
+    DT::datatable(
+      data = guestsByState(),
+    ) %>% formatStyle(0, backgroundColor = style('red'))
+  }) 
   
   
   ### BAR PLOT BY GENERATIONAL AGE IS HERE ###
