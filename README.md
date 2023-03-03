@@ -39,3 +39,4 @@ Given more time, there are a few improvements I would make:
 * I would adjust the heights of the two bar plots so that there wasn't as much whitespace on the page.
 * I would experiment with adding a great variety of map tiles. (e.g., I was never quite able to figure out how to properly display the Stadia map.)
 * I would play around with the styles more so that I could use [shinydashboardPlus's](https://rinterface.github.io/shinydashboardPlus/articles/shinydashboardPlus.html#:~:text=shinydashboardPlus%20relies%20on%20the%20same,shinydashboard) [midnight mode](https://rinterface.github.io/shinydashboardPlus/articles/more-skins.html) without the download button and the datatables becoming near-impossible to read.
+* I would add observers to the two bar plots.
