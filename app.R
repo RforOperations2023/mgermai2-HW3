@@ -29,25 +29,12 @@ library(plotly)
 library(ggplot2)
 library(DT)
 library(bslib)
+library(geometries)
+
+# kept this in just in case I wanted to read in the data differently later
 # weddingGuests <- st_read("https://raw.githubusercontent.com/mgermaine93/wedding-guest-map/master/constants/guests.geojson")
 # states <- st_read("https://raw.githubusercontent.com/mgermaine93/wedding-guest-map/master/constants/us-states.geojson")
 # states <- geojsonio::geojson_read("https://rstudio.github.io/leaflet/json/us-states.geojson", what = "sp")
-
-
-# To-Do:
-#   * Add datatables == DONE (sort-of)
-#   * Add download handler == DONE
-#   * Add observer(s) to main cluster map == DONE
-#   * Add text to the ABOUT page == DONE
-#   * Add in a few more map tiles to each map == DONE
-#   * Add comments to code == DONE
-#   * Fix bar plots (they are no longer working as expected for some reason) == DONE
-#   * (If time) Add in functionality that factors in guest type for the two bar charts (the fill in this case would be guest type) == N/A
-#   * Maybe add more content to the popUpContent of the markers?
-#   * Add observers to bar plots (if time)
-#   * change icons to represent men/women (if time)
-#   * update README == DONE
-#   * change colors for heatmap == DONE
 
 # load in the guests data
 weddingGuests <- st_read("data/guests.geojson")
@@ -55,13 +42,14 @@ weddingGuests <- st_read("data/guests.geojson")
 # load in the states data
 states <- st_read("data/us-states.geojson")
 
+
 #######################
 # ui part begins here #
 #######################
 ui <- dashboardPage(
   
   # sets the "theme" of the page
-  skin = "midnight",
+  skin = "blue",
   
   # sets the title of the app
   dashboardHeader(
@@ -197,13 +185,6 @@ ui <- dashboardPage(
           class = "download-button"
         )
       )
-      # enables the user to download the data
-      # https://shiny.rstudio.com/reference/shiny/1.0.5/downloadbutton
-      # downloadButton(
-      #   outputId = "downloadData",
-      #   label = "Download Data Table",
-      #   class = "download-button"
-      # )
       
     )
     
@@ -482,9 +463,8 @@ server <- function(input, output) {
   # heatmap-related constants are here #
   ######################################
   
-  # might adjust this later...
   # these are the values that mark the color cutoffs for guest density
-  bins <- c(0, 1, 2, 3, 5, 10, 20, 50, 100)
+  bins <- c(0, 1, 2, 3, 5, 10, 20, 30, 50, 100)
   # bins <- c(0, 10, 20, 50, 100, 200, 500, 1000, Inf)
   
   # this represents the actual colors for the heatmap and its legend,
@@ -524,11 +504,6 @@ server <- function(input, output) {
         group = "Open Street Map", 
         options = providerTileOptions(noWrap = TRUE)
       ) %>%
-      # addProviderTiles(
-      #   providers$OpenTopoMap, 
-      #   group = "Open Topo Map", 
-      #   options = providerTileOptions(noWrap = TRUE)
-      # ) %>%
       addProviderTiles(
         providers$Stamen.Terrain, 
         group = "Stamen Terrain", 
@@ -539,11 +514,6 @@ server <- function(input, output) {
         group = "Earth at Night",
         options = providerTileOptions(noWrap = TRUE)
       ) %>%
-      # addProviderTiles(
-      #   providers$Stadia.AlidadeSmoothDark,
-      #   group = "Smooth Dark",
-      #   options = providerTileOptions(noWrap = TRUE)
-      # ) %>%
       setView(
         lng = -98.583,
         lat = 39.833,
@@ -552,10 +522,8 @@ server <- function(input, output) {
       addLayersControl(
         baseGroups = c(
           "Open Street Map", 
-          # "Open Topo Map", 
           "Stamen Terrain",
           "Earth at Night"
-          # "Smooth Dark"
         ),
         options = layersControlOptions(collapsed = TRUE)
       )
@@ -596,26 +564,11 @@ server <- function(input, output) {
         group = "Open Street Map", 
         options = providerTileOptions(noWrap = TRUE)
       ) %>%
-      # addProviderTiles(
-      #   providers$OpenTopoMap, 
-      #   group = "Open Topo Map", 
-      #   options = providerTileOptions(noWrap = TRUE)
-      # ) %>%
       addProviderTiles(
         providers$Stamen.Terrain, 
         group = "Stamen Terrain", 
         options = providerTileOptions(noWrap = TRUE)
       ) %>%
-      # addProviderTiles(
-      #   providers$NASAGIBS.ViirsEarthAtNight2012,
-      #   group = "Earth at Night",
-      #   options = providerTileOptions(noWrap = TRUE)
-      # ) %>%
-      # addProviderTiles(
-      #   providers$Stadia.AlidadeSmoothDark,
-      #   group = "Smooth Dark",
-      #   options = providerTileOptions(noWrap = TRUE)
-      # ) %>%
       setView(
         lng = -98.583,
         lat = 39.833,
@@ -624,10 +577,7 @@ server <- function(input, output) {
       addLayersControl(
         baseGroups = c(
           "Open Street Map", 
-          # "Open Topo Map", 
           "Stamen Terrain"
-          # "Earth at Night",
-          # "Smooth Dark"
         ),
         options = layersControlOptions(collapsed = TRUE)
       ) %>%
@@ -712,8 +662,8 @@ server <- function(input, output) {
   # outputs the data table corresponding to the first plot
   output$guestsByStateDataTable = DT::renderDataTable({
     DT::datatable(
-      data = guestsByState(),
-    ) %>% formatStyle(0, backgroundColor = style('red'))
+      data = guestsByState()
+    )
   }) 
   
   
